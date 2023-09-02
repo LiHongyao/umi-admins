@@ -1,0 +1,46 @@
+.lg-edit-span {
+  display: flex;
+  align-items: center;
+
+  &__action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 35px;
+    margin-left: 8px;
+    &_close,
+    &_check {
+      cursor: pointer;
+      &:hover {
+        color: cornflowerblue;
+      }
+    }
+  }
+
+  &__place {
+    flex: 1;
+    padding-right: 8px;
+  }
+  &__edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    &_icon {
+      display: none;
+    }
+    &:hover {
+      .lg-edit-span__edit_icon {
+        color: cornflowerblue;
+      }
+    }
+  }
+
+  &.un-edit:hover {
+    .lg-edit-span__edit_icon {
+      display: block;
+    }
+  }
+}

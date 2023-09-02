@@ -1,0 +1,58 @@
+.phone-model {
+  .ant-modal-content {
+    background-color: #00000000;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  .phone-model-content {
+    position: relative;
+    width: 300px;
+    &__ct {
+      position: absolute;
+      top: 72px;
+      left: 50%;
+      z-index: 9;
+      box-sizing: border-box;
+      width: 280px;
+      height: 528px;
+      padding: 10px;
+      overflow-y: scroll;
+      background-color: #fff;
+      border-radius: 0 0 36px 36px;
+      transform: translateX(-50%);
+      overscroll-behavior-y: contain;
+      img {
+        max-width: 100% !important;
+      }
+      p {
+        margin: 0;
+      }
+    }
+
+    &__phone {
+      position: absolute;
+      top: 0;
+      z-index: 2;
+      width: inherit;
+    }
+    &__nav {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 1;
+      box-sizing: border-box;
+      width: 283px;
+      height: 72px;
+      padding: 40px 50px 0;
+      overflow-x: hidden;
+      color: #555;
+      font-weight: bold;
+      font-size: 14px;
+      white-space: nowrap;
+      text-align: center;
+      text-overflow: ellipsis;
+      background: #f3f4f6;
+      border-radius: 38px 38px 0 0;
+      transform: translateX(-50%);
+    }
+  }
+}
