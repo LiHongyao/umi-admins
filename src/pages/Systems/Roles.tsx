@@ -1,5 +1,6 @@
-import AccessTree from '@/components/AccessTree';
-import services from '@/services';
+import { apiSystems } from '@/api/apiServer';
+import AccessTree from '@/components/@lgs/AccessTree';
+
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -35,7 +36,7 @@ const Roles: React.FC = () => {
   };
   // - effects
   useEffect(() => {
-    services.systems.access().then((resp) => {
+    apiSystems.access().then((resp) => {
       if (resp && resp.code === 200) {
         setAuths(resp.data);
       }
@@ -75,7 +76,7 @@ const Roles: React.FC = () => {
                 cancelText: '点错了',
                 onOk: async () => {
                   message.loading('处理中...', 60 * 1000);
-                  const resp = await services.systems.roleDelete(record.id);
+                  const resp = await apiSystems.roleDelete(record.id);
                   message.destroy();
                   if (resp && resp.code === 200) {
                     setTips('角色删除成功');
@@ -123,7 +124,7 @@ const Roles: React.FC = () => {
           return data;
         }}
         request={async () => {
-          const resp = await services.systems.roles();
+          const resp = await apiSystems.roles();
           return Promise.resolve({
             data: resp.data,
             success: true,
@@ -134,7 +135,9 @@ const Roles: React.FC = () => {
       {/* modals */}
       <ModalForm
         formRef={vForm}
-        title={!!vForm.current?.getFieldValue('roleId') ? '编辑角色信息' : '新建角色'}
+        title={
+          !!vForm.current?.getFieldValue('roleId') ? '编辑角色信息' : '新建角色'
+        }
         open={openForm}
         width={500}
         layout="horizontal"
@@ -144,7 +147,7 @@ const Roles: React.FC = () => {
         }}
         onFinish={async (value) => {
           message.loading('处理中...', 60 * 1000);
-          const resp = await services.systems.roleAddAndUpdate(value);
+          const resp = await apiSystems.roleAddAndUpdate(value);
           message.destroy();
           if (resp && resp.code === 200) {
             setTips('添加成功');

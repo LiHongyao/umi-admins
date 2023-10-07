@@ -1,6 +1,16 @@
-import services from '@/services';
-import { DeleteOutlined, FormOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { ModalForm, PageContainer, ProFormInstance, ProFormText } from '@ant-design/pro-components';
+import { apiSystems } from '@/api/apiServer';
+import {
+  DeleteOutlined,
+  FormOutlined,
+  PlusCircleOutlined,
+  PlusOutlined,
+} from '@ant-design/icons';
+import {
+  ModalForm,
+  PageContainer,
+  ProFormInstance,
+  ProFormText,
+} from '@ant-design/pro-components';
 import { App, Button, Space, Tree } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -16,7 +26,7 @@ const Access: React.FC = () => {
 
   // - methods
   const getData = async () => {
-    const resp = await services.systems.access();
+    const resp = await apiSystems.access();
     vForm.current?.resetFields();
     if (resp && resp.code === 200) {
       setTreeData(resp.data);
@@ -36,7 +46,7 @@ const Access: React.FC = () => {
       cancelText: '点错了',
       onOk: async () => {
         message.loading('处理中...', 60 * 1000);
-        const resp = await services.systems.accessDelete(nodeData.id);
+        const resp = await apiSystems.accessDelete(nodeData.id);
         message.destroy();
         if (resp && resp.code === 200) {
           getData();
@@ -96,15 +106,26 @@ const Access: React.FC = () => {
             <span>
               {nodeData.name} - {nodeData.code}
             </span>
-            <FormOutlined style={{ color: '#4169E1' }} onClick={() => onEdit(nodeData)} />
-            <PlusCircleOutlined style={{ color: '#4169E1' }} onClick={() => onInsert(nodeData)} />
-            <DeleteOutlined style={{ color: '#DC143C' }} onClick={() => onDelete(nodeData)} />
+            <FormOutlined
+              style={{ color: '#4169E1' }}
+              onClick={() => onEdit(nodeData)}
+            />
+            <PlusCircleOutlined
+              style={{ color: '#4169E1' }}
+              onClick={() => onInsert(nodeData)}
+            />
+            <DeleteOutlined
+              style={{ color: '#DC143C' }}
+              onClick={() => onDelete(nodeData)}
+            />
           </Space>
         )}
       />
       <ModalForm
         formRef={vForm}
-        title={!!vForm.current?.getFieldValue('authId') ? '编辑权限' : '新建权限'}
+        title={
+          !!vForm.current?.getFieldValue('authId') ? '编辑权限' : '新建权限'
+        }
         open={openModal}
         width={400}
         modalProps={{
@@ -113,7 +134,7 @@ const Access: React.FC = () => {
         }}
         onFinish={async (value) => {
           message.loading('处理中...', 60 * 1000);
-          const resp = await services.systems.accessAddOrUpdate(value);
+          const resp = await apiSystems.accessAddOrUpdate(value);
           message.destroy();
           if (resp && resp.code === 200) {
             getData();

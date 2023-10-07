@@ -1,5 +1,5 @@
-import ImageBox from '@/components/ImageBox';
-import services from '@/services';
+import { apiAudit } from '@/api/apiServer';
+import ImageBox from '@/components/@lgs/ImageBox';
 import {
   ActionType,
   FooterToolbar,
@@ -172,7 +172,7 @@ const Audit: React.FC = () => {
           showTotal: (total) => `共 ${total} 条`,
         }}
         request={async (params: any) => {
-          const resp = await services.audit.list({
+          const resp = await apiAudit.list({
             current: params.current || 1,
             pageSize: params.pageSize || 20,
           });

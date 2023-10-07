@@ -2,7 +2,8 @@
   "private": true,
   "author": "Li-HONGYAO <lihy_online@163.com>",
   "scripts": {
-    "build": "cross-env max build",
+    "build:prod": "cross-env UMI_ENV=production NODE_ENV=production max build",
+    "build:qa": "cross-env UMI_ENV=qa NODE_ENV=qa max build",
     "dev": "cross-env UMI_ENV=development NODE_ENV=development max dev",
     "format": "prettier --cache --write .",
     "postinstall": "max setup",
@@ -20,6 +21,8 @@
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-react": "^1.0.6",
     "antd": "^5.8.5",
+    "axios": "^1.5.1",
+    "axios-retry": "^3.8.0",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.9",
     "react-tsparticles": "^2.12.2",

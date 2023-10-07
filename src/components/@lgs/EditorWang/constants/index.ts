@@ -1,0 +1,17 @@
+export const svgMore =
+  '<svg t="1695306193711" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4188" id="mx_n_1695306193712" width="200" height="200"><path d="M896 469.333333v128h-128v-128h128z m-298.666667 0v128h-128v-128h128z m-298.666666 0v128H170.666667v-128h128z" fill="#444444" p-id="4189"></path></svg>';
+export const svgAlign =
+  '<svg t="1695306475232" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5229" id="mx_n_1695306475233" width="200" height="200"><path d="M96 128h832v96H96zM96 576h832v96H96zM96 352h576v96H96zM96 800h576v96H96z" p-id="5230"></path></svg>';
+export const svgIndent =
+  '<svg t="1695306773587" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7278" id="mx_n_1695306773588" width="200" height="200"><path d="M127.48531250000002 164.7598958333334H898.109375v82.9546875H127.484375v-82.9546875zM458.46125 320.2864583333333h439.6471875v82.955625H458.46125V320.2864583333333zM458.46125 475.8148958333333h439.6471875v82.95375H458.46125v-82.95375zM458.46125 631.3414583333334h439.6471875v82.9546875H458.46125v-82.9546875zM127.48531250000002 786.8680208333334H898.109375v82.955625H127.484375v-82.955625zM127.48531250000002 674.6802083333333V382.6452083333333L322.1778125 528.6645833333333z" p-id="7279"></path></svg>';
+
+class EventNames {
+  /** 手机预览 */
+  static TAP_PREVIEW = 'TAP_PREVIEW';
+  /** 清除内容 */
+  static TAP_CLEAR_CONTENT = 'TAP_CLEAR_CONTENT';
+  /** 替换图片 */
+  static TAP_REPLACE_IMAGE = 'TAP_REPLACE_IMAGE';
+}
+
+export default EventNames;

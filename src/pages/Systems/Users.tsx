@@ -1,5 +1,6 @@
-import AliyunOSSUpload from '@/components/AliyunOSSUpload';
-import services from '@/services';
+import { apiSystems } from '@/api/apiServer';
+import UploadForOSS from '@/components/@lgs/UploadForOSS';
+
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -30,7 +31,7 @@ const Users: React.FC = () => {
   // -- methods
   const switchStatus = async (id: string, tips: string) => {
     message.loading('处理中...', 60 * 1000);
-    const resp = await services.systems.userSwichStatus(id);
+    const resp = await apiSystems.userSwichStatus(id);
     message.destroy();
     if (resp && resp.code === 200) {
       setTips(tips);
@@ -73,7 +74,7 @@ const Users: React.FC = () => {
         },
       },
       request: async () => {
-        const resp = await services.systems.roles();
+        const resp = await apiSystems.roles();
         if (resp && resp.code === 200) {
           return resp.data;
         }
@@ -142,7 +143,7 @@ const Users: React.FC = () => {
                 cancelText: '点错了',
                 onOk: async () => {
                   message.loading('处理中...', 60 * 1000);
-                  const resp = await services.systems.userResetPsw(record.id);
+                  const resp = await apiSystems.userResetPsw(record.id);
                   message.destroy();
                   if (resp && resp.code === 200) {
                     message.success('密码已重置为【123456】');
@@ -189,7 +190,7 @@ const Users: React.FC = () => {
           return data;
         }}
         request={async () => {
-          const resp = await services.systems.users();
+          const resp = await apiSystems.users();
           return Promise.resolve({
             data: resp.data || [],
             success: true,
@@ -210,7 +211,7 @@ const Users: React.FC = () => {
         }}
         onFinish={async (value) => {
           message.loading('处理中...', 60 * 1000);
-          const resp = await services.systems.userAddAndUpdate({
+          const resp = await apiSystems.userAddAndUpdate({
             ...value,
             avatar: value.avatar[0].url,
           });
@@ -229,7 +230,7 @@ const Users: React.FC = () => {
           rules={[{ required: true, message: '请上传轮播图' }]}
           extra={'Tips：上传尺寸 → 100x100'}
         >
-          <AliyunOSSUpload dir="fruites_pro" />
+          <UploadForOSS dir="fruites_pro" />
         </ProForm.Item>
         <ProFormText
           label="账号"
@@ -270,7 +271,7 @@ const Users: React.FC = () => {
             },
           }}
           request={async () => {
-            const resp = await services.systems.roles();
+            const resp = await apiSystems.roles();
             if (resp && resp.code === 200) {
               return resp.data;
             }

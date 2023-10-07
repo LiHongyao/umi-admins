@@ -1,10 +1,3 @@
-/*
- * @Author: Lee
- * @Date: 2023-09-01 21:06:35
- * @LastEditors: Lee
- * @LastEditTime: 2023-09-01 21:10:33
- * @Description:
- */
 import { history } from '@umijs/max';
 import { Button, Result } from 'antd';
 import React from 'react';

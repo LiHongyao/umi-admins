@@ -1,10 +1,3 @@
-/*
- * @Author: Lee
- * @Date: 2023-02-21 01:09:24
- * @LastEditors: Lee
- * @LastEditTime: 2023-05-10 22:19:10
- * @Description:
- */
 import { GridContent } from '@ant-design/pro-components';
 import { Menu } from 'antd';
 import React, { useLayoutEffect, useRef, useState } from 'react';
@@ -64,7 +57,10 @@ const Settings: React.FC = () => {
   }, [dom.current]);
 
   const getMenu = () =>
-    Object.keys(menuMap).map((item) => ({ key: item, label: menuMap[item as SettingsStateKeys] }));
+    Object.keys(menuMap).map((item) => ({
+      key: item,
+      label: menuMap[item as SettingsStateKeys],
+    }));
 
   const renderChildren = () => {
     const { selectKey } = initConfig;

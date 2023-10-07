@@ -1,4 +1,4 @@
-import services from '@/services';
+import { apiSystems } from '@/api/apiServer';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
@@ -147,7 +147,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
             return message.error('新密码和确认密码不一致');
           }
           message.loading('处理中...');
-          const resp = await services.systems.changePsw({
+          const resp = await apiSystems.changePsw({
             oldPassword,
             newPassword,
           });

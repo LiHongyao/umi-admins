@@ -1,12 +1,10 @@
-/*
- * @Author: Lee
- * @Date: 2023-05-05 16:50:26
- * @LastEditors: Lee
- * @LastEditTime: 2023-05-18 17:55:00
- * @Description:
- */
-import services from '@/services';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { apiUser } from '@/api/apiServer';
+import {
+  ActionType,
+  PageContainer,
+  ProColumns,
+  ProTable,
+} from '@ant-design/pro-components';
 import { message } from 'antd';
 import React, { useRef, useState } from 'react';
 
@@ -19,8 +17,18 @@ const Feedback: React.FC = () => {
   // -- columns
   const columns: ProColumns<API.FeedbackItemProps>[] = [
     { title: '序号', dataIndex: 'index', valueType: 'indexBorder', width: 48 },
-    { title: '反馈时间', dataIndex: 'createDate', hideInSearch: true, width: 180 },
-    { title: '用户昵称', dataIndex: 'nickname', hideInSearch: true, width: 100 },
+    {
+      title: '反馈时间',
+      dataIndex: 'createDate',
+      hideInSearch: true,
+      width: 180,
+    },
+    {
+      title: '用户昵称',
+      dataIndex: 'nickname',
+      hideInSearch: true,
+      width: 100,
+    },
     { title: '联系电话', dataIndex: 'phone', copyable: true, width: 160 },
     { title: '反馈内容', dataIndex: 'content', hideInSearch: true },
   ];
@@ -41,7 +49,7 @@ const Feedback: React.FC = () => {
           return data;
         }}
         request={async (params) => {
-          const resp = await services.user.feedbacks({ ...params });
+          const resp = await apiUser.feedbacks({ ...params });
           return Promise.resolve({
             data: resp.data.list || [],
             success: true,

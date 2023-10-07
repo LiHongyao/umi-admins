@@ -1,6 +1,7 @@
+import { apiUser } from '@/api/apiServer';
+import InitParticles from '@/components/@lgs/InitParticles';
 import Footer from '@/components/Footer';
-import InitParticles from '@/components/InitParticles';
-import services from '@/services';
+
 import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
 import {
   LoginForm,
@@ -60,7 +61,7 @@ const Login: React.FC = () => {
     values: API.LoginWithAccount & { memorize: boolean },
   ) => {
     try {
-      const resp = await services.user.login({
+      const resp = await apiUser.login({
         username: values.username,
         password: values.password,
       });
@@ -115,8 +116,8 @@ const Login: React.FC = () => {
               src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
             />
           }
-          title="Umi-Admin"
-          subTitle={'Background management system template·Li-HONGYAO'}
+          title="后台管理系统模板"
+          subTitle={'基于Umijs + TypeScript + axios + ProCompoents 实现'}
           initialValues={{ memorize: true }}
           onFinish={async (
             values: API.LoginWithAccount & { memorize: boolean },
@@ -143,13 +144,15 @@ const Login: React.FC = () => {
               <ProFormText
                 name="username"
                 fieldProps={{ size: 'large', prefix: <UserOutlined /> }}
-                placeholder={'用户名'}
+                placeholder={'admin'}
+                allowClear
                 rules={[{ required: true, message: '请输入用户名!' }]}
               />
               <ProFormText.Password
                 name="password"
                 fieldProps={{ size: 'large', prefix: <LockOutlined /> }}
-                placeholder={'密码'}
+                placeholder={'1234'}
+                allowClear
                 rules={[{ required: true, message: '请输入密码!' }]}
               />
             </>
@@ -185,7 +188,7 @@ const Login: React.FC = () => {
                 phoneName={'mobile'}
                 rules={[{ required: true, message: '请输入验证码！' }]}
                 onGetCaptcha={async (phone) => {
-                  const resp = await services.user.sendCaptcha(phone);
+                  const resp = await apiUser.sendCaptcha(phone);
                   if (resp && resp.code === 200) {
                     messageApi.success('验证码为：1234!');
                   }

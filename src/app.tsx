@@ -1,3 +1,4 @@
+import AntWrapApp from '@/components/@lgs/GlobalMessage';
 import Footer from '@/components/Footer';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
@@ -9,8 +10,16 @@ import {
   AvatarDropdown,
   AvatarName,
 } from './components/RightContent/AvatarDropdown';
-import { errorConfig } from './requestErrorConfig';
 const loginPath = '/login';
+
+export const rootContainer = (root: JSX.Element) => {
+  return (
+    <App>
+      <AntWrapApp />
+      {root}
+    </App>
+  );
+};
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
@@ -57,11 +66,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       src: initialState?.currentUser?.avatar,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
-        return (
-          <App>
-            <AvatarDropdown>{avatarChildren}</AvatarDropdown>
-          </App>
-        );
+        return <AvatarDropdown>{avatarChildren}</AvatarDropdown>;
       },
     },
     footerRender: () => <Footer />,
@@ -84,17 +89,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     ],
     childrenRender: (children) => {
       // if (initialState?.loading) return <PageLoading />;
-      return <App>{children}</App>;
+      return children;
     },
     ...initialState?.settings,
   };
-};
-
-/**
- * @name request 配置，可以配置错误处理
- * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
- * @doc https://umijs.org/docs/max/request#配置
- */
-export const request = {
-  ...errorConfig,
 };

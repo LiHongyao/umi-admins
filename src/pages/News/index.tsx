@@ -1,6 +1,6 @@
-import EditorWang from '@/components/EditorWang';
-import PhoneModel from '@/components/PhoneModel';
-import services from '@/services';
+import { apiNews } from '@/api/apiServer';
+import EditorWang from '@/components/@lgs/EditorWang';
+import PhoneModel from '@/components/@lgs/PhoneModel';
 import { PlusOutlined, RightOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -128,7 +128,7 @@ const News: React.FC = () => {
           showTotal: (total) => `共 ${total} 条`,
         }}
         request={async (params) => {
-          const resp = await services.news.list({
+          const resp = await apiNews.list({
             current: params.current || 1,
             pageSize: params.pageSize || 20,
           });

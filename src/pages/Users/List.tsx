@@ -1,4 +1,4 @@
-import services from '@/services';
+import { apiUser } from '@/api/apiServer';
 import {
   ActionType,
   PageContainer,
@@ -60,7 +60,7 @@ const Users: React.FC = () => {
           return data;
         }}
         request={async (params) => {
-          const resp = await services.user.list({ ...params });
+          const resp = await apiUser.list({ ...params });
           return Promise.resolve({
             data: resp.data.list || [],
             success: true,

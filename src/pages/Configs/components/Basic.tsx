@@ -1,15 +1,7 @@
-/*
- * @Author: Lee
- * @Date: 2023-05-10 21:24:25
- * @LastEditors: Lee
- * @LastEditTime: 2023-05-28 21:37:40
- * @Description:
- */
-
-import AliyunOSSUpload from '@/components/AliyunOSSUpload';
-import EditorWang, { EditorWangRefs } from '@/components/EditorWang';
-import ImagePreview from '@/components/ImagePreview';
-import PhoneModel from '@/components/PhoneModel';
+import EditorWang, { EditorWangRefs } from '@/components/@lgs/EditorWang';
+import ImagePreview from '@/components/@lgs/ImagePreview';
+import PhoneModel from '@/components/@lgs/PhoneModel';
+import UploadForOSS from '@/components/@lgs/UploadForOSS';
 import {
   ActionType,
   ModalForm,
@@ -108,7 +100,11 @@ const Basic: React.FC = () => {
                   </Button>
                 );
               }
-              if (['contactPersonProfitRatio', 'principalProfitRatio'].includes(key)) {
+              if (
+                ['contactPersonProfitRatio', 'principalProfitRatio'].includes(
+                  key,
+                )
+              ) {
                 return value + '%';
               }
               return value;
@@ -125,7 +121,7 @@ const Basic: React.FC = () => {
                     vEditor.current?.setContent('<span>租车指南...</span>');
                     setOpenModal(true);
                   } else {
-                    vForm.current.setFieldsValue({
+                    vForm.current?.setFieldsValue({
                       key,
                       value: ['customerServiceQrCode'].includes(key)
                         ? value
@@ -183,10 +179,12 @@ const Basic: React.FC = () => {
         )}
         {['customerServiceQrCode'].includes(record?.key || '') && (
           <ProForm.Item name={'value'}>
-            <AliyunOSSUpload max={1} dir="configs" />
+            <UploadForOSS max={1} dir="configs" />
           </ProForm.Item>
         )}
-        {['contactPersonProfitRatio', 'principalProfitRatio'].includes(record?.key || '') && (
+        {['contactPersonProfitRatio', 'principalProfitRatio'].includes(
+          record?.key || '',
+        ) && (
           <ProFormDigit
             name={'value'}
             min={0}

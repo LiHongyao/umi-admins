@@ -1,6 +1,7 @@
-import AliyunOSSUpload from '@/components/AliyunOSSUpload';
-import ImageBox from '@/components/ImageBox';
-import services from '@/services';
+import { apiBanners } from '@/api/apiServer';
+import ImageBox from '@/components/@lgs/ImageBox';
+import UploadForOSS from '@/components/@lgs/UploadForOSS';
+
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -56,7 +57,7 @@ const Banners: React.FC = () => {
           checked={!!state}
           onChange={async (v) => {
             message.loading('处理中...', 60 * 1000);
-            const resp = await services.banners.switchStatus({
+            const resp = await apiBanners.switchStatus({
               id,
               state: +v,
             });
@@ -105,7 +106,7 @@ const Banners: React.FC = () => {
         },
       },
       request: async () => {
-        const resp = await services.banners.getShowLocations();
+        const resp = await apiBanners.getShowLocations();
         if (resp && resp.code === 200) {
           return resp.data;
         }
@@ -166,7 +167,7 @@ const Banners: React.FC = () => {
           return data;
         }}
         request={async (params) => {
-          const resp = await services.banners.list({
+          const resp = await apiBanners.list({
             current: params.current || 1,
             pageSize: params.pageSize || 20,
           });
@@ -200,7 +201,7 @@ const Banners: React.FC = () => {
           };
           delete params.showTime;
           message.loading('处理中...', 60 * 1000);
-          const resp = await services.banners.addOrUpdate(params);
+          const resp = await apiBanners.addOrUpdate(params);
           message.destroy();
           if (resp && resp.code === 200) {
             setTips(value.id ? '编辑成功' : '添加成功');
@@ -215,7 +216,7 @@ const Banners: React.FC = () => {
           name="bannerPic"
           rules={[{ required: true, message: '请上传轮播图' }]}
         >
-          <AliyunOSSUpload dir="banner" />
+          <UploadForOSS dir="banner" />
         </ProForm.Item>
 
         <ProFormDigit
@@ -247,7 +248,7 @@ const Banners: React.FC = () => {
             },
           }}
           request={async () => {
-            const resp = await services.banners.getShowLocations();
+            const resp = await apiBanners.getShowLocations();
             if (resp && resp.code === 200) {
               return resp.data;
             }
