@@ -1,9 +1,9 @@
-import type {
+import {
   IDomEditor,
   IEditorConfig,
   IToolbarConfig,
+  SlateTransforms,
 } from '@wangeditor/editor';
-import { SlateTransforms } from '@wangeditor/editor';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css';
 import { App } from 'antd';
@@ -11,23 +11,27 @@ import React, { memo, useEffect, useImperativeHandle, useState } from 'react';
 import hoverbarKeys from './configs/hoverbarKeys';
 import { fontSize } from './configs/menuConfs';
 import toolbarKeys from './configs/toolbarKeys';
-import EventNames from './constants';
+import { EventType } from './constants';
 import './index.less';
 import './menus';
+// https://blog.csdn.net/QiZi_Zpl/article/details/130402877
+
+export interface UploadProps {
+  type: 'AUDIO' | 'VIDEO' | 'IMAGE';
+  file: File;
+  next: (url: string) => void;
+}
 
 interface IProps {
   /** 默认值 */
   value?: string;
   /** 提示信息 */
   placeholder?: string;
-  /** 尺寸 */
-  width?: number;
-  height?: number;
   onChange?: (value: string) => void;
   /** 手机预览 */
   onPreview?: (htmlString: string) => void;
-  /** 图片上传 */
-  onUploadImage?: (file: File, next: (url: string) => void) => void;
+  /** 文件上传 */
+  onUploadFile?: (options: UploadProps) => void;
 }
 export interface EditorWangRefs {
   /** 清空 */
@@ -38,30 +42,24 @@ export interface EditorWangRefs {
   getText: () => string;
 }
 
-type InsertFnType = (url: string, alt: string, href: string) => void;
+type InsertImageFnType = (url: string, alt: string, href: string) => void;
+type InsertVideoFnType = (url: string, poster: string) => void;
 
 const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
   (props, refs) => {
-    /**********************
-     ** 解构参数
-     **********************/
-
     const {
       value,
       placeholder = '请输入内容...',
-      height = 300,
       onChange,
       onPreview,
-      onUploadImage,
+      onUploadFile,
     } = props;
     const { message, modal } = App.useApp();
-    /**********************
-     ** State
-     **********************/
+
+    // -- state
     const [editor, setEditor] = useState<IDomEditor | null>(null);
-    /**********************
-     ** Refs
-     **********************/
+
+    // -- refs
     useImperativeHandle(refs, () => ({
       clear: () => {
         editor?.clear();
@@ -74,13 +72,13 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
       },
     }));
 
-    /**********************
-     ** 事件
-     **********************/
+    // -- events
     const __onClearContent = (editor: IDomEditor) => {
       modal.confirm({
         title: '是否确定清空内容?',
         content: '清空后内容将无法恢复，请自行保存内容!',
+        cancelText: '取消',
+        okText: '取消',
         onOk: () => editor.clear(),
       });
     };
@@ -94,54 +92,91 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
       }
     };
     const __onReplaceImage = (editor: IDomEditor, file: File) => {
-      if (onUploadImage) {
-        onUploadImage(file, (url: string) => {
-          // -- 移除当前选中的节点
-          SlateTransforms.removeNodes(editor);
-          // -- 插入新节点
-          const node = {
-            type: 'paragraph',
-            children: [
-              { text: '' },
-              {
-                type: 'image',
-                src: url,
-                href: 'href',
-                alt: 'alt',
-                style: {},
-                children: [{ text: '' }],
-              },
-              { text: '' },
-            ],
-          };
-          editor.insertNode(node);
+      if (onUploadFile) {
+        onUploadFile({
+          type: 'IMAGE',
+          file,
+          next: (url: string) => {
+            // -- 移除当前选中的节点
+            SlateTransforms.removeNodes(editor);
+            // -- 插入新节点
+            const node = {
+              type: 'paragraph',
+              children: [
+                { text: '' },
+                {
+                  type: 'image',
+                  src: url,
+                  href: 'href',
+                  alt: 'alt',
+                  style: {},
+                  children: [{ text: '' }],
+                },
+                { text: '' },
+              ],
+            };
+            editor.insertNode(node);
+          },
+        });
+      }
+    };
+    const __onUploadAudio = (editor: IDomEditor, file: File) => {
+      if (onUploadFile) {
+        onUploadFile({
+          type: 'AUDIO',
+          file,
+          next(url) {
+            const node = {
+              type: 'video',
+              width: '350',
+              height: '60',
+              src: url,
+              poster: '',
+              children: [{ text: '' }],
+            };
+
+            editor.insertNode(node);
+          },
         });
       }
     };
 
-    /**********************
-     ** 工具栏配置
-     **********************/
+    // -- 工具栏配置
     const toolbarConfig: Partial<IToolbarConfig> = {
       toolbarKeys,
     };
 
-    /**********************
-     ** 编辑器配置
-     **********************/
+    // -- 编辑器配置
     const editorConfig: Partial<IEditorConfig> = {
       placeholder,
-      hoverbarKeys,
       autoFocus: false,
       maxLength: 1000,
+      scroll: true,
+      hoverbarKeys,
       MENU_CONF: {
         fontSize,
         uploadImage: {
-          // 自定义上传
-          async customUpload(file: File, insertFn: InsertFnType) {
-            if (onUploadImage) {
-              onUploadImage(file, (url: string) => {
-                insertFn(url, 'alt', 'href');
+          async customUpload(file: File, insertFn: InsertImageFnType) {
+            if (onUploadFile) {
+              onUploadFile({
+                type: 'IMAGE',
+                file,
+                next: (url: string) => {
+                  insertFn(url, 'alt', 'href');
+                },
+              });
+            }
+          },
+        },
+        uploadVideo: {
+          async customUpload(file: File, insertFn: InsertVideoFnType) {
+            if (onUploadFile) {
+              onUploadFile({
+                type: 'VIDEO',
+                file,
+                next: (url: string) => {
+                  insertFn(url, '');
+                },
               });
             }
           },
@@ -171,29 +206,29 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
           style={{ borderBottom: '1px solid #ccc' }}
         />
         {/* 编辑器 */}
+
         <Editor
           defaultConfig={editorConfig}
           value={value}
+          mode="default"
+          style={{ overflowY: 'hidden', height: 350 }}
           onCreated={(editor: IDomEditor) => {
             setEditor(editor);
             // console.log(editor.getAllMenuKeys());
             // -- 自定义事件
-            editor.on(EventNames.TAP_PREVIEW, () => __onPreview(editor));
-            editor.on(EventNames.TAP_CLEAR_CONTENT, () =>
-              __onClearContent(editor),
-            );
-            editor.on(EventNames.TAP_REPLACE_IMAGE, (file) =>
+            editor.on(EventType.PREVIEW, () => __onPreview(editor));
+            editor.on(EventType.CLEAR_CONTENT, () => __onClearContent(editor));
+            editor.on(EventType.REPLACE_IMAGE, (file) =>
               __onReplaceImage(editor, file),
+            );
+            editor.on(EventType.UPLOAD_AUDIO, (file) =>
+              __onUploadAudio(editor, file),
             );
           }}
           onChange={(editor: IDomEditor) => {
             const htmlString = editor.getHtml();
-            if (onChange) {
-              onChange(htmlString);
-            }
+            onChange && onChange(htmlString);
           }}
-          mode="default"
-          style={{ overflowY: 'hidden', minHeight: 200 }}
         />
       </div>
     );

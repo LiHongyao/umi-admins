@@ -1,17 +1,15 @@
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import MatchLine, {
-  MatchLineAnwsers,
+  MatchLineAnswers,
   MatchLineOptions,
 } from '@likg/match-line';
 import { App, Button, Input, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
-let index__ = 0;
-
 export interface MatchLineFormValue {
   options: MatchLineOptions;
-  anwsers?: MatchLineAnwsers;
+  answers?: MatchLineAnswers;
 }
 
 interface IProps {
@@ -29,7 +27,7 @@ const MatchLineForm: React.FC<IProps> = React.memo(
         { leftOption: '', rightOption: '' },
         { leftOption: '', rightOption: '' },
       ],
-      anwsers: undefined,
+      answers: undefined,
     };
 
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -45,7 +43,7 @@ const MatchLineForm: React.FC<IProps> = React.memo(
     const onPushOption = () => {
       const t = { ...dataSource };
       t.options.push({ leftOption: '', rightOption: '' });
-      t.anwsers = undefined;
+      t.answers = undefined;
       setDataSource(t);
       onChange && onChange(t);
     };
@@ -56,7 +54,7 @@ const MatchLineForm: React.FC<IProps> = React.memo(
       }
       const t = { ...dataSource };
       t.options.splice(index, 1);
-      t.anwsers = undefined;
+      t.answers = undefined;
       setDataSource(t);
       onChange && onChange(t);
     };
@@ -68,42 +66,35 @@ const MatchLineForm: React.FC<IProps> = React.memo(
     ) => {
       const t = { ...dataSource };
       t.options[index][key] = value;
-      t.anwsers = undefined;
+      t.answers = undefined;
       setDataSource(t);
       onChange && onChange(t);
     };
 
-    const onFileChange = (
+    const onFileChange = async (
       files: FileList | null,
       index: number,
       key: 'leftOption' | 'rightOption',
     ) => {
       if (files && files.length > 0) {
         const file = files[0];
-        message.loading('图片上传中...', 60 * 1000);
-        // -- 模拟图片
-        const urls = [
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F351de5f7-9498-40bf-a2a4-50f8a7599acc%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1698247010&t=60c3f75d31bfb77d5aa46bc56751c7bc',
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fc77eccc9-5752-4ab5-a777-bc64122a7fc2%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1698247010&t=d084e5951792eecace95df293e6c507d',
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F4cecb617-8679-4d3c-bb1b-222334871030%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1698247010&t=eadc698ee9de58281d527d7c964bfaa8',
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fa87bd95e-af43-43fb-b9c6-2be9720ae8c4%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1698247010&t=4d072c0b9c7d60abf0c2a12b8f24f4c6',
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fbb44dd9b-3e37-4ca6-ae76-4cf845703948%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1698247010&t=e152ef9a03b93ab2fd4ae36d478e7ad9',
-          'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2Fcefc1885-6350-4f70-9af8-a24ec8ff3f3f%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1698247010&t=6d7a71d028356c7a5d08e44e5d31b0d4',
-        ];
-        setTimeout(() => {
-          const t = { ...dataSource };
-          t.options[index][key] = urls[index__++];
-          t.anwsers = undefined;
-          setDataSource(t);
-          onChange && onChange(t);
-          message.destroy();
-        }, 500);
+        try {
+          message.loading('图片上传中...', 0);
+          // const resp = await apiCommon.uploadFile(file);
+          // if (resp && resp.code === 200) {
+          //   const t = { ...dataSource };
+          //   t.options[index][key] = resp.data.full_path;
+          //   t.answers = undefined;
+          //   setDataSource(t);
+          //   onChange && onChange(t);
+          // }
+        } catch (error) {}
       }
     };
 
     useEffect(() => {
-      const { options, anwsers } = dataSource;
-      if (anwsers) {
+      const { options, answers } = dataSource;
+      if (answers) {
         setShowAnchor(true);
       } else {
         const see: Record<string, boolean> = {};
@@ -134,15 +125,14 @@ const MatchLineForm: React.FC<IProps> = React.memo(
         const items = containerRef.current.querySelectorAll('.anchor');
         if (items) {
           const matchline = new MatchLine({
-            id: 'a',
             container: containerRef.current,
             items: items as NodeListOf<HTMLElement>,
             canvas: canvasRef.current,
             backCanvas: backCanvasRef.current,
-            anwsers: dataSource?.anwsers,
-            onChange(anwsers) {
+            answers: dataSource?.answers,
+            onChange(answers) {
               const t = { ...dataSource };
-              t.anwsers = anwsers;
+              t.answers = answers;
               setDataSource(t);
               onChange && onChange(t);
             },

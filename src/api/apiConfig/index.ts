@@ -1,6 +1,7 @@
 // https://blog.csdn.net/wgh2820777641/article/details/129086408
 
 import { message } from '@/components/@lgs/GlobalMessage';
+import { history } from '@umijs/max';
 import axios, {
   AxiosError,
   AxiosInstance,
@@ -8,28 +9,14 @@ import axios, {
   AxiosResponse,
   AxiosResult,
 } from 'axios';
-import axiosRetry from 'axios-retry';
 
 const axiosInstance: AxiosInstance = axios.create({
   baseURL: process.env.HOST,
-  timeout: 1000,
+  timeout: 60000,
   withCredentials: false,
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
-  },
-});
-
-// @ts-ignore
-axiosRetry(axiosInstance, {
-  // 设置自动发送请求次数
-  retries: 3,
-  // 重置超时时间
-  retryDelay: () => 3000,
-  // 重置超时时间
-  shouldResetTimeout: true,
-  retryCondition: (error) => {
-    if (error.message.includes('timeout')) return true;
   },
 });
 
@@ -55,44 +42,74 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   async (response: AxiosResponse) => {
+    // -- 清除Loadings
+    message.destroy();
     // -- 二进制流数据
     if (response.request.responseType === 'blob') {
       return { code: 200, data: response.data, msg: 'success' };
     }
 
+    // -- 判断code，统一处理异常
     const { code, msg } = response.data as unknown as AxiosResult;
-    if (code !== 200) {
-      message.warning(msg);
+
+    if (code === 200) {
+      return response.data;
+    } else if (code === 401) {
+      history.replace('/login');
       return Promise.reject();
+    } else {
+      message.warning(msg);
+      return Promise.reject(msg);
     }
-    return response.data;
   },
   (error: AxiosError) => {
     console.log('[request error] > ', error);
-    let errorMsg = '';
-    if (error.message === 'Request aborted') {
-      errorMsg = '请求取消';
-    } else if (error.message === 'Network Error') {
-      errorMsg = '请求错误';
-    } else if (/timeout/.test(error.message)) {
-      errorMsg = '请求超时';
-    }
 
-    switch (error.response?.status) {
-      case 400:
-        errorMsg = '账号或密码错误';
-        break;
-      case 404:
-        errorMsg = '调用接口不存在';
-        break;
-      case 405:
-        errorMsg = '请求方法不支持';
-        break;
-      case 500:
-        errorMsg = '服务器异常';
-        break;
+    if (error && error.response) {
+      switch (error.response.status) {
+        case 400:
+          error.message = '请求错误(400)';
+          break;
+        case 401:
+          error.message = '未授权，请重新登录(401)';
+          break;
+        case 403:
+          error.message = '拒绝访问(403)';
+          break;
+        case 404:
+          error.message = '请求出错(404)';
+          break;
+        case 405:
+          error.message = '请求方法不支持(405)';
+          break;
+        case 408:
+          error.message = '请求超时(408)';
+          break;
+        case 500:
+          error.message = '服务器异常(500)';
+          break;
+        case 501:
+          error.message = '服务未实现(501)';
+          break;
+        case 502:
+          error.message = '网络错误(502)';
+          break;
+        case 503:
+          error.message = '网络超时(504)(503)';
+          break;
+        case 504:
+          error.message = '网络超时(504)';
+          break;
+        case 505:
+          error.message = 'HTTP版本不受支持(505)';
+          break;
+        default:
+          error.message = `连接出错(${error.response.status})!`;
+      }
+    } else {
+      error.message = '服务链接失败';
     }
-    message.error(errorMsg);
+    message.error(error.message);
     return Promise.reject(error);
   },
 );

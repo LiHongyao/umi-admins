@@ -160,7 +160,7 @@ const Basic: React.FC = () => {
             value = value[0].url;
           }
           console.log(`${key} - ${value}`);
-          message.loading('处理中...', 60 * 1000);
+          message.loading('处理中...', 0);
           try {
             setTimeout(() => {
               message.destroy();

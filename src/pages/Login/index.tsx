@@ -12,7 +12,7 @@ import {
 } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { Helmet, history, useModel } from '@umijs/max';
-import { Alert, Tabs, message } from 'antd';
+import { Alert, App, Tabs } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 
@@ -33,7 +33,7 @@ type LoginType = 'mobile' | 'account';
 
 const Login: React.FC = () => {
   // -- APPs
-  const [messageApi, contextHolder] = message.useMessage();
+  const { message } = App.useApp();
   // -- refs
   const vForm = useRef<ProFormInstance>();
   // -- state
@@ -67,7 +67,11 @@ const Login: React.FC = () => {
       });
       if (resp && resp.code === 200) {
         // 1. 存储账号信息
-        localStorage.setItem('XXX_ACCOUNT_INFOs', JSON.stringify(values));
+        if (values.memorize) {
+          localStorage.setItem('XXX_ACCOUNT_INFOs', JSON.stringify(values));
+        } else {
+          localStorage.removeItem('XXX_ACCOUNT_INFOs');
+        }
         // 2. 存储Token
         localStorage.setItem('XXX_TOKEN', resp.data.token);
         // 3. 存储用户信息
@@ -98,7 +102,6 @@ const Login: React.FC = () => {
 
   return (
     <div className={containerClassName}>
-      {contextHolder}
       {/* 显示在标签上的标题：document.title */}
       <Helmet>
         <title>登录 - 后台管理系统</title>
@@ -118,7 +121,6 @@ const Login: React.FC = () => {
           }
           title="后台管理系统模板"
           subTitle={'基于Umijs + TypeScript + axios + ProCompoents 实现'}
-          initialValues={{ memorize: true }}
           onFinish={async (
             values: API.LoginWithAccount & { memorize: boolean },
           ) => {
@@ -132,7 +134,7 @@ const Login: React.FC = () => {
             centered
             items={[
               { key: 'account', label: '账户密码登录' },
-              { key: 'mobile', label: '手机号登录', disabled: true },
+              { key: 'mobile', label: '手机号登录' },
             ]}
           />
 
@@ -190,7 +192,7 @@ const Login: React.FC = () => {
                 onGetCaptcha={async (phone) => {
                   const resp = await apiUser.sendCaptcha(phone);
                   if (resp && resp.code === 200) {
-                    messageApi.success('验证码为：1234!');
+                    message.success('验证码为：1234!');
                   }
                 }}
               />

@@ -10,7 +10,25 @@
  * @param icon 配置路由的图标，取值参考 https://ant.design/components/icon-cn， 注意去除风格后缀和大小写，如想要配置图标为 <StepBackwardOutlined /> 则取值应为 stepBackward 或 StepBackward，如想要配置图标为 <UserOutlined /> 则取值应为 user 或者 User
  * @doc https://umijs.org/docs/guides/routes
  */
-export default [
+
+interface RouterConfig {
+  path: string;
+  component?: string;
+  routes?: RouterConfig[];
+  redirect?: string;
+  wrappers?: any;
+  name?: string;
+  icon?: string;
+  hideInBreadcrumb?: boolean;
+  layout?: boolean;
+  menuRender?: boolean;
+  menuHeaderRender?: boolean;
+  headerRender?: boolean;
+  hideInMenu?: boolean;
+  access?: string;
+}
+
+const routes: RouterConfig[] = [
   { path: '/', redirect: '/login' },
   { path: '/login', component: '@/pages/Login', layout: false },
   {
@@ -36,6 +54,18 @@ export default [
     component: '@/pages/News',
     name: '新闻管理',
     icon: 'icon-xinwen',
+  },
+  {
+    path: '/news/create',
+    component: '@/pages/News/AddOrUpdate',
+    name: '新建新闻',
+    hideInMenu: true,
+  },
+  {
+    path: '/news/edit/:id',
+    component: '@/pages/News/AddOrUpdate',
+    name: '编辑新闻',
+    hideInMenu: true,
   },
   {
     path: '/users',
@@ -83,3 +113,5 @@ export default [
     ],
   },
 ];
+
+export default routes;

@@ -4,7 +4,7 @@ import React from 'react';
 
 const Dashboard: React.FC = () => {
   return (
-    <PageContainer>
+    <PageContainer title={false}>
       <ProCard>
         <h1
           style={{

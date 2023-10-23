@@ -1,33 +1,35 @@
 import type { IButtonMenu, IDomEditor } from '@wangeditor/editor';
 import { Boot } from '@wangeditor/editor';
-import EventNames from '../constants';
+import { EventType, Svgs } from '../constants';
 
 class ClearContent implements IButtonMenu {
   title: string;
   tag: string;
+  iconSvg?: string | undefined;
+
   constructor() {
     this.title = '清除内容';
     this.tag = 'button';
+    this.iconSvg = Svgs.CLEAR_CONTENT;
   }
-  getValue(): string | boolean {
+  getValue(_: IDomEditor): string | boolean {
     return '';
   }
-  isActive(): boolean {
+  isActive(_: IDomEditor): boolean {
     return false;
   }
-  isDisabled(): boolean {
+  isDisabled(_: IDomEditor): boolean {
     return false;
   }
-  exec(editor: IDomEditor) {
-    editor.emit(EventNames.TAP_CLEAR_CONTENT);
+  exec(editor: IDomEditor, _: string | boolean) {
+    if (this.isDisabled(editor)) return;
+    editor.emit(EventType.CLEAR_CONTENT);
   }
 }
 
-const _ = {
+Boot.registerMenu({
   key: 'clearContent',
   factory() {
     return new ClearContent();
   },
-};
-
-Boot.registerMenu(_);
+});

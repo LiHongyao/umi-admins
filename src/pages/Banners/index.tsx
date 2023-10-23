@@ -56,7 +56,7 @@ const Banners: React.FC = () => {
           checkedChildren={'已上架'}
           checked={!!state}
           onChange={async (v) => {
-            message.loading('处理中...', 60 * 1000);
+            message.loading('处理中...', 0);
             const resp = await apiBanners.switchStatus({
               id,
               state: +v,
@@ -68,7 +68,7 @@ const Banners: React.FC = () => {
                   item.id === id ? { ...item, state: +v } : { ...item },
                 ),
               );
-              message.success(v ? '成功上架' : '成功下架');
+              message.success(v ? '已上架' : '已下架');
             }
           }}
         />
@@ -200,7 +200,7 @@ const Banners: React.FC = () => {
             end: value.showTime.end,
           };
           delete params.showTime;
-          message.loading('处理中...', 60 * 1000);
+          message.loading('处理中...', 0);
           const resp = await apiBanners.addOrUpdate(params);
           message.destroy();
           if (resp && resp.code === 200) {

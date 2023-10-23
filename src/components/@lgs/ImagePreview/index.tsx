@@ -1,5 +1,5 @@
-import { Image, Modal } from 'antd';
-import React, { memo } from 'react';
+import { Modal } from 'antd';
+import React from 'react';
 interface IProps {
   url: string;
   onCancel: () => void;
@@ -7,25 +7,21 @@ interface IProps {
   name?: string;
 }
 
-const ImagePreview: React.FC<IProps> = ({
-  url,
-  name,
-  onCancel,
-  width = 600,
-}) => {
-  return (
-    <Modal
-      title={name || url.slice(url.lastIndexOf('/') + 1)}
-      open={!!url}
-      onCancel={onCancel}
-      maskClosable={false}
-      width={width}
-      footer={null}
-      bodyStyle={{ textAlign: 'center' }}
-    >
-      <Image src={url} preview={false} />
-    </Modal>
-  );
-};
+const ImagePreview: React.FC<IProps> = React.memo(
+  ({ url, name, onCancel, width = 600 }) => {
+    return (
+      <Modal
+        title={name || url.slice(url.lastIndexOf('/') + 1)}
+        open={!!url}
+        onCancel={onCancel}
+        maskClosable={false}
+        width={width}
+        footer={null}
+      >
+        <img src={url} width={'100%'} />
+      </Modal>
+    );
+  },
+);
 
-export default memo(ImagePreview);
+export default ImagePreview;

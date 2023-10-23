@@ -30,7 +30,7 @@ const Users: React.FC = () => {
 
   // -- methods
   const switchStatus = async (id: string, tips: string) => {
-    message.loading('处理中...', 60 * 1000);
+    message.loading('处理中...', 0);
     const resp = await apiSystems.userSwichStatus(id);
     message.destroy();
     if (resp && resp.code === 200) {
@@ -142,7 +142,7 @@ const Users: React.FC = () => {
                 content: '您确定要重置该用户的密码么？',
                 cancelText: '点错了',
                 onOk: async () => {
-                  message.loading('处理中...', 60 * 1000);
+                  message.loading('处理中...', 0);
                   const resp = await apiSystems.userResetPsw(record.id);
                   message.destroy();
                   if (resp && resp.code === 200) {
@@ -210,7 +210,7 @@ const Users: React.FC = () => {
           onCancel: () => setOpenForm(false),
         }}
         onFinish={async (value) => {
-          message.loading('处理中...', 60 * 1000);
+          message.loading('处理中...', 0);
           const resp = await apiSystems.userAddAndUpdate({
             ...value,
             avatar: value.avatar[0].url,

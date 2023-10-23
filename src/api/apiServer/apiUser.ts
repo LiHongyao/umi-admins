@@ -10,7 +10,7 @@ export async function login(data: API.LoginWithAccount) {
 
 export async function sendCaptcha(phone: string) {
   return request<API.LoginResult>({
-    url: '/api/users/sendCaptcha',
+    url: '/api/user/sendCaptcha',
     method: 'POST',
     data: { phone },
   });

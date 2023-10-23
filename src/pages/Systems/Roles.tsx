@@ -75,7 +75,7 @@ const Roles: React.FC = () => {
                 content: '您确定要删除该角色么？',
                 cancelText: '点错了',
                 onOk: async () => {
-                  message.loading('处理中...', 60 * 1000);
+                  message.loading('处理中...', 0);
                   const resp = await apiSystems.roleDelete(record.id);
                   message.destroy();
                   if (resp && resp.code === 200) {
@@ -146,7 +146,7 @@ const Roles: React.FC = () => {
           onCancel: () => setOpenForm(false),
         }}
         onFinish={async (value) => {
-          message.loading('处理中...', 60 * 1000);
+          message.loading('处理中...', 0);
           const resp = await apiSystems.roleAddAndUpdate(value);
           message.destroy();
           if (resp && resp.code === 200) {

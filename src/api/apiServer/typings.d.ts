@@ -139,6 +139,7 @@ declare namespace API {
    ** 新闻管理
    **********************/
   type NewsItemProps = {
+    id: string;
     title: string;
     content: string;
   };

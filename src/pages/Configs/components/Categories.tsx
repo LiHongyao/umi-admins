@@ -64,7 +64,7 @@ const Types: React.FC = () => {
                 content: '您确定要删除该项么？',
                 cancelText: '点错了',
                 onOk: () => {
-                  message.loading('处理中...', 60 * 1000);
+                  message.loading('处理中...', 0);
                   try {
                     setTimeout(() => {
                       message.destroy();
@@ -140,7 +140,7 @@ const Types: React.FC = () => {
           onCancel: () => setOpenForm(false),
         }}
         onFinish={async (values) => {
-          message.loading('处理中...', 60 * 1000);
+          message.loading('处理中...', 0);
           try {
             message.destroy();
             setTips(values.id ? '编辑成功' : '添加成功');

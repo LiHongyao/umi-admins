@@ -1,23 +1,16 @@
-/*
- * @Author: Lee
- * @Date: 2021-12-23 14:47:29
- * @LastEditors: Lee
- * @LastEditTime: 2021-12-23 14:49:27
- */
-import React, { FC } from 'react';
 import { Tree } from 'antd';
-import { DataNode } from 'rc-tree/lib/interface';
+import React from 'react';
 
 interface IProps {
-  treeData: DataNode[];
+  treeData: any[];
   value?: string[];
   onChange?: (value: string[]) => void;
 }
-const AccessTree: FC<IProps> = (props) => {
+const AccessTree: React.FC<IProps> = React.memo((props) => {
   // 获取父节点
   const getParentsKeys = (
-    tree: DataNode[],
-    func: (data: DataNode) => boolean,
+    tree: any[],
+    func: (data: any) => boolean,
     path: string[] = [],
   ): string[] => {
     if (!tree) return [];
@@ -37,7 +30,7 @@ const AccessTree: FC<IProps> = (props) => {
     return [];
   };
   // 获取子节点
-  const getChildrenKeys = (tree: DataNode[], path: string[] = []) => {
+  const getChildrenKeys = (tree: any[], path: string[] = []) => {
     if (!tree) {
       return [];
     }
@@ -80,6 +73,6 @@ const AccessTree: FC<IProps> = (props) => {
       }}
     />
   );
-};
+});
 
 export default AccessTree;

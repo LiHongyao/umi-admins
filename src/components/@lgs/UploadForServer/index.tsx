@@ -1,4 +1,3 @@
-import { apiCommon } from '@/api/apiServer';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { App, Upload } from 'antd';
 import { RcFile } from 'antd/es/upload';
@@ -21,19 +20,19 @@ const UploadForServer: React.FC<IProps> = React.memo(({ value, onChange }) => {
 
   const uploadFile = async ({ file }: any) => {
     setLoading(true);
-    try {
-      const resp = await apiCommon.uploadFile(file as unknown as File);
-      setLoading(false);
-      if (resp && resp.code === 200) {
-        const { full_path } = resp.data;
-        onChange?.(full_path);
-      } else {
-        message.error('上传失败');
-      }
-    } catch {
-      message.error('上传失败');
-      setLoading(false);
-    }
+    // try {
+    //   const resp = await apiCommon.uploadFile(file as unknown as File);
+    //   setLoading(false);
+    //   if (resp && resp.code === 200) {
+    //     const { full_path } = resp.data;
+    //     onChange?.(full_path);
+    //   } else {
+    //     message.error('上传失败');
+    //   }
+    // } catch {
+    //   message.error('上传失败');
+    //   setLoading(false);
+    // }
   };
 
   const uploadButton = (

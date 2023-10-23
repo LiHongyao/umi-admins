@@ -5,7 +5,7 @@ export default defineConfig({
   // 1. 部署至二级目录 → { base: '/二级目录名/', publicPath: '/二级目录名/'  }
 
   // 2. 输出目录
-  outputPath: 'admin-pro',
+  outputPath: 'dist',
 
   // 3. 定义环境变量
   define: {

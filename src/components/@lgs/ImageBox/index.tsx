@@ -1,11 +1,11 @@
-import { Image } from 'antd';
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
+import ImagePreview from '../ImagePreview';
 import './index.less';
 interface IProps {
   width?: string | number;
   height?: string | number;
   spacing?: number /** 相框间距 */;
-  src?: string;
+  src: string;
   caption?: string;
   desc?: string;
 }
@@ -17,21 +17,24 @@ const ImageBox: React.FC<IProps> = ({
   caption = '',
   desc = '',
 }) => {
+  const [url, setUrl] = useState('');
   return (
     <div className="lg-image-box" style={{ width }}>
-      <div className="top-wrap" style={{ width, height, padding: spacing }}>
-        <div className="wrap">
-          <Image src={src} />
-          <div
-            className="spacing-img"
-            style={{
-              background: `url(${src}) no-repeat center center / cover`,
-            }}
-          />
-        </div>
+      <div
+        className="lg-image-box__content"
+        style={{ width, height, padding: spacing }}
+        onClick={() => setUrl(src)}
+      >
+        <div
+          className="lg-image-box__spacing-img"
+          style={{
+            background: `url(${src}) no-repeat center center / cover`,
+          }}
+        />
       </div>
-      {caption ? <div className="caption">{caption}</div> : null}
-      {desc ? <div className="desc">{desc}</div> : null}
+      {caption ? <div className="lg-image-box__caption">{caption}</div> : null}
+      {desc ? <div className="lg-image-box__desc">{desc}</div> : null}
+      <ImagePreview url={url} width={400} onCancel={() => setUrl('')} />
     </div>
   );
 };

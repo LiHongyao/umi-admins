@@ -1,25 +1,21 @@
 import { apiNews } from '@/api/apiServer';
-import EditorWang from '@/components/@lgs/EditorWang';
 import PhoneModel from '@/components/@lgs/PhoneModel';
 import { PlusOutlined, RightOutlined } from '@ant-design/icons';
 import {
   ActionType,
-  ModalForm,
   PageContainer,
   ProColumns,
-  ProFormInstance,
-  ProFormRadio,
-  ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
+import { useNavigate } from '@umijs/max';
 import { App, Button, Space } from 'antd';
 import React, { useRef, useState } from 'react';
 const News: React.FC = () => {
   // -- APPs
-  const { message, modal } = App.useApp();
+  const { modal } = App.useApp();
+  const navigate = useNavigate();
   // - refs
   const vTable = useRef<ActionType>();
-  const vForm = useRef<ProFormInstance>();
 
   // -- state
   const [openForm, setOpenForm] = useState(false);
@@ -76,14 +72,7 @@ const News: React.FC = () => {
       width: 120,
       render: (_, record) => (
         <Space>
-          <Button
-            onClick={() => {
-              vForm.current?.setFieldsValue({
-                ...record,
-              });
-              setOpenForm(true);
-            }}
-          >
+          <Button onClick={() => navigate(`/news/edit/${record.id}`)}>
             编辑
           </Button>
           <Button
@@ -111,12 +100,7 @@ const News: React.FC = () => {
         headerTitle={'新闻管理'}
         options={false}
         toolBarRender={() => [
-          <Button
-            onClick={() => {
-              vForm.current?.resetFields();
-              setOpenForm(true);
-            }}
-          >
+          <Button onClick={() => navigate('/news/create')}>
             <PlusOutlined />
             <span>新建</span>
           </Button>,
@@ -140,66 +124,6 @@ const News: React.FC = () => {
         }}
       />
       {/* modals */}
-      <ModalForm
-        formRef={vForm}
-        title={!!vForm.current?.getFieldValue('id') ? '编辑新闻' : '新建新闻'}
-        open={openForm}
-        width={700}
-        layout="horizontal"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 18 }}
-        modalProps={{
-          forceRender: true,
-          onCancel() {
-            setOpenForm(false);
-          },
-        }}
-        onFinish={async (value) => {
-          message.loading('处理中，请稍后...');
-          setTimeout(() => {
-            message.destroy();
-            setOpenForm(false);
-            vTable.current?.reload();
-          }, 1000);
-        }}
-      >
-        <ProFormText name="id" noStyle hidden />
-        <ProFormText
-          label="标题"
-          placeholder="请输入新闻标题"
-          name="title"
-          rules={[{ required: true }]}
-        />
-        <ProFormRadio.Group
-          name="type"
-          label="类型"
-          rules={[{ required: true }]}
-          options={[
-            {
-              label: '案例新闻',
-              value: 1,
-            },
-            {
-              label: '动态新闻',
-              value: 2,
-            },
-          ]}
-        />
-        <ProFormRadio.Group
-          name="category"
-          label="分类"
-          rules={[{ required: true }]}
-          options={[
-            { label: '文明实践', value: 1 },
-            { label: '爱国卫生月', value: 2 },
-            { label: '志愿服务', value: 3 },
-          ]}
-        />
-        <ProFormText label="内容" name="content" rules={[{ required: true }]}>
-          <EditorWang />
-        </ProFormText>
-      </ModalForm>
-
       <PhoneModel
         open={!!htmlString}
         onCancel={() => setHtmlString('')}

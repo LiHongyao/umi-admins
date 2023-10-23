@@ -34,7 +34,7 @@ const Audit: React.FC = () => {
     const { type, ids, rejectReason } = data;
     console.log(data);
     const handlerAudit = () => {
-      message.loading('处理中，请稍后', 60 * 1000);
+      message.loading('处理中，请稍后', 0);
       setTimeout(() => {
         message.destroy();
       }, 1000);
