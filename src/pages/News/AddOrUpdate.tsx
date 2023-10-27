@@ -92,7 +92,15 @@ const AddOrUpdate: React.FC = () => {
           />
 
           <ProFormText label="内容" name="content" rules={[{ required: true }]}>
-            <EditorWang />
+            <EditorWang
+              onUploadFile={({ file, type, next }) => {
+                if (type === 'AUDIO') {
+                  next(
+                    'https://xingzhe-web-test.s3.cn-northwest-1.amazonaws.com.cn/temp/test/%E5%A4%A7%E6%B0%94%E5%AE%A3%E4%BC%A0%20%E5%A3%AE%E5%BF%97%E5%87%8C%E4%BA%91.mp3',
+                  );
+                }
+              }}
+            />
           </ProFormText>
         </ProForm>
       </ProCard>

@@ -35,7 +35,7 @@ const Users: React.FC = () => {
     message.destroy();
     if (resp && resp.code === 200) {
       setTips(tips);
-      vTable.current?.reload();
+      vTable.current?.reloadAndRest!();
     }
   };
 
@@ -219,7 +219,7 @@ const Users: React.FC = () => {
           if (resp && resp.code === 200) {
             setTips(value.id ? '编辑成功' : '添加成功');
             setOpenForm(false);
-            vTable.current?.reload();
+            vTable.current?.reloadAndRest!();
           }
         }}
       >

@@ -80,7 +80,7 @@ const Roles: React.FC = () => {
                   message.destroy();
                   if (resp && resp.code === 200) {
                     setTips('角色删除成功');
-                    vTable.current?.reload();
+                    vTable.current?.reloadAndRest!();
                   }
                 },
               });
@@ -152,7 +152,7 @@ const Roles: React.FC = () => {
           if (resp && resp.code === 200) {
             setTips('添加成功');
             setOpenForm(false);
-            vTable.current?.reload();
+            vTable.current?.reloadAndRest!();
           }
         }}
       >

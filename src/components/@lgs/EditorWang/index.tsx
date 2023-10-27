@@ -12,6 +12,7 @@ import hoverbarKeys from './configs/hoverbarKeys';
 import { fontSize } from './configs/menuConfs';
 import toolbarKeys from './configs/toolbarKeys';
 import { EventType } from './constants';
+import './elements';
 import './index.less';
 import './menus';
 // https://blog.csdn.net/QiZi_Zpl/article/details/130402877
@@ -126,16 +127,12 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
           type: 'AUDIO',
           file,
           next(url) {
-            const node = {
-              type: 'video',
-              width: '350',
-              height: '60',
-              src: url,
-              poster: '',
-              children: [{ text: '' }],
+            const audioResume = {
+              type: 'audioAttachment',
+              link: url,
+              children: [{ text: '' }], // void node 必须有 children ，其中有一个空字符串，重要！！！
             };
-
-            editor.insertNode(node);
+            editor.insertNode(audioResume);
           },
         });
       }
@@ -211,7 +208,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
           defaultConfig={editorConfig}
           value={value}
           mode="default"
-          style={{ overflowY: 'hidden', height: 350 }}
+          style={{ overflowY: 'hidden', height: 300 }}
           onCreated={(editor: IDomEditor) => {
             setEditor(editor);
             // console.log(editor.getAllMenuKeys());

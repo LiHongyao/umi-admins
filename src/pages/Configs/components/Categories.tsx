@@ -69,7 +69,7 @@ const Types: React.FC = () => {
                     setTimeout(() => {
                       message.destroy();
                       setTips('删除成功');
-                      vTable.current?.reload();
+                      vTable.current?.reloadAndRest!();
                     }, 500);
                   } catch {
                     message.destroy();
@@ -144,7 +144,7 @@ const Types: React.FC = () => {
           try {
             message.destroy();
             setTips(values.id ? '编辑成功' : '添加成功');
-            vTable.current?.reload();
+            vTable.current?.reloadAndRest!();
             setOpenForm(false);
           } catch {
             message.destroy();

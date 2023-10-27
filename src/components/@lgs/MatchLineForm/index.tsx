@@ -1,9 +1,10 @@
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
+import { ProFormText } from '@ant-design/pro-components';
 import MatchLine, {
   MatchLineAnswers,
   MatchLineOptions,
 } from '@likg/match-line';
-import { App, Button, Input, Space } from 'antd';
+import { App, Button, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
@@ -157,12 +158,16 @@ const MatchLineForm: React.FC<IProps> = React.memo(
               {/* 左侧 */}
               <div className="item leftOption">
                 {type === 'TEXT' ? (
-                  <Input
+                  <ProFormText
                     placeholder="左侧"
-                    value={option.leftOption}
-                    onChange={(e) =>
-                      onInputChange(e.target.value, i, 'leftOption')
-                    }
+                    noStyle
+                    fieldProps={{
+                      value: option.leftOption,
+                      onChange: (e) => {
+                        onInputChange(e.target.value, i, 'leftOption');
+                      },
+                    }}
+                    convertValue={(v) => v.trim()}
                   />
                 ) : (
                   <div
@@ -207,12 +212,16 @@ const MatchLineForm: React.FC<IProps> = React.memo(
                   />
                 )}
                 {type === 'TEXT' ? (
-                  <Input
+                  <ProFormText
                     placeholder="右侧"
-                    value={option.rightOption}
-                    onChange={(e) =>
-                      onInputChange(e.target.value, i, 'rightOption')
-                    }
+                    noStyle
+                    fieldProps={{
+                      value: option.rightOption,
+                      onChange: (e) => {
+                        onInputChange(e.target.value, i, 'rightOption');
+                      },
+                    }}
+                    convertValue={(v) => v.trim()}
                   />
                 ) : (
                   <div
