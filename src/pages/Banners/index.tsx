@@ -86,7 +86,7 @@ const Banners: React.FC = () => {
     {
       title: '展示时间',
       key: 'showTime',
-      valueType: 'dateTimeRange',
+      valueType: 'dateRange',
       width: 260,
       render: (_, { start, end }) => (
         <Space direction="vertical">
@@ -167,10 +167,12 @@ const Banners: React.FC = () => {
           return data;
         }}
         request={async (params) => {
-          const resp = await apiBanners.list({
-            current: params.current || 1,
-            pageSize: params.pageSize || 20,
-          });
+          if (params.showTime) {
+            params.start = `${params.showTime[0]} 00:00:00`;
+            params.end = `${params.showTime[1]} 23:59:59`;
+            delete params.showTime;
+          }
+          const resp = await apiBanners.list(params);
           setDataSource(resp.data.list || []);
           return Promise.resolve({
             data: resp.data.list || [],

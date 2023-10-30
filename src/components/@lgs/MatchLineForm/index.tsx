@@ -164,10 +164,10 @@ const MatchLineForm: React.FC<IProps> = React.memo(
                     fieldProps={{
                       value: option.leftOption,
                       onChange: (e) => {
-                        onInputChange(e.target.value, i, 'leftOption');
+                        const v = e.target.value;
+                        onInputChange(v ? v.trim() : v, i, 'leftOption');
                       },
                     }}
-                    convertValue={(v) => v.trim()}
                   />
                 ) : (
                   <div
@@ -218,10 +218,10 @@ const MatchLineForm: React.FC<IProps> = React.memo(
                     fieldProps={{
                       value: option.rightOption,
                       onChange: (e) => {
-                        onInputChange(e.target.value, i, 'rightOption');
+                        const v = e.target.value;
+                        onInputChange(v ? v.trim() : v, i, 'rightOption');
                       },
                     }}
-                    convertValue={(v) => v.trim()}
                   />
                 ) : (
                   <div

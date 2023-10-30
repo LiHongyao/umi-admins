@@ -98,6 +98,9 @@ const Audit: React.FC = () => {
       dataIndex: 'mobile',
       copyable: true,
       width: 140,
+      fieldProps: {
+        maxLength: 11,
+      },
     },
     {
       title: '单元信息',
@@ -172,10 +175,7 @@ const Audit: React.FC = () => {
           showTotal: (total) => `共 ${total} 条`,
         }}
         request={async (params: any) => {
-          const resp = await apiAudit.list({
-            current: params.current || 1,
-            pageSize: params.pageSize || 20,
-          });
+          const resp = await apiAudit.list(params);
           return Promise.resolve({
             data: resp.data.list || [],
             success: true,

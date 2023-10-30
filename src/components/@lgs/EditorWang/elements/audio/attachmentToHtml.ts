@@ -14,10 +14,11 @@ function attachmentToHtml(
   const html = `<div
         data-w-e-type="audioAttachment"
         data-w-e-is-void
-        data-w-e-is-inline
+        data-w-e-is-block
         data-link="${link}"
+        style="padding: 16px 8px; background:linear-gradient(45deg,#f5f5f5 70%,transparent 0,transparent 80%,#f5f5f5 0,#f5f5f5);"
     >
-      <audio src="${link}" controls />
+      <audio src="${link}" controls  preload="auto"  />
     </div>`;
   return html;
 }

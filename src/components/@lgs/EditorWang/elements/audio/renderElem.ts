@@ -15,13 +15,11 @@ function renderAttachment(
 ): VNode {
   // 获取“附件”的数据，参考上文 myResume 数据结构
   const { link = '' } = elem;
-
   const audioVnode = h('audio', {
     props: {
       src: link,
       controls: true,
       preload: 'auto',
-      crossorigin: 'anonymous',
     },
     style: { width: '300px' },
   });
@@ -31,12 +29,13 @@ function renderAttachment(
     {
       props: { contentEditable: false },
       style: {
-        padding: '12px 8px',
-        background: 'linear-gradient(45deg,#f5f5f5 60%, transparent 70%)',
+        padding: '16px 8px',
+        background:
+          'linear-gradient(45deg,#f5f5f5 70%,transparent 0,transparent 80%,#f5f5f5 0,#f5f5f5)',
       },
       on: {
         click() {
-          console.log('clicked', link);
+          // console.log('clicked', link);
         },
       },
     },

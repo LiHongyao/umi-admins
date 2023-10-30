@@ -24,7 +24,6 @@ function parseAttachmentHtml(
     link,
     children: [{ text: '' }],
   };
-
   return audioResume;
 }
 

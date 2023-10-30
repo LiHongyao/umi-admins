@@ -1,10 +1,3 @@
-/*
- * @Author: Lee
- * @Date: 2023-05-10 18:54:40
- * @LastEditors: Lee
- * @LastEditTime: 2023-05-10 22:29:37
- * @Description:
- */
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -37,7 +30,11 @@ const Types: React.FC = () => {
     { id: 5, typeName: '特价车' },
   ]);
   // -- events
-  const handleDragSortEnd = async (newDataSource: Array<TypeItemProps>) => {
+  const handleDragSortEnd = async (
+    beforeIndex: number,
+    afterIndex: number,
+    newDataSource: Array<TypeItemProps>,
+  ) => {
     const sortIds = newDataSource.map((item) => item.id);
     setDataSource(newDataSource);
     console.log(sortIds);
@@ -128,7 +125,9 @@ const Types: React.FC = () => {
         onDragSortEnd={handleDragSortEnd}
       />
       <ModalForm
-        title={!!vForm.current?.getFieldValue('id') ? '编辑车辆类型' : '新建车辆类型'}
+        title={
+          !!vForm.current?.getFieldValue('id') ? '编辑车辆类型' : '新建车辆类型'
+        }
         formRef={vForm}
         open={openForm}
         width={300}

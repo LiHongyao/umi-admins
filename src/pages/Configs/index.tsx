@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import Basic from './components/Basic';
 import Categories from './components/Categories';
 import Types from './components/Types';
-import styles from './index.less';
+import './index.less';
 
 const menuMap = {
   base: '基础配置',
@@ -79,14 +79,14 @@ const Settings: React.FC = () => {
   return (
     <GridContent>
       <div
-        className={styles.main}
+        className={'main'}
         ref={(ref) => {
           if (ref) {
             dom.current = ref;
           }
         }}
       >
-        <div className={styles.leftMenu}>
+        <div className={'leftMenu'}>
           <Menu
             mode={initConfig.mode}
             selectedKeys={[initConfig.selectKey]}
@@ -99,7 +99,7 @@ const Settings: React.FC = () => {
             }}
           />
         </div>
-        <div className={styles.right}>
+        <div className={'right'}>
           {/* <div className={styles.title}>{menuMap[initConfig.selectKey]}</div> */}
           {renderChildren()}
         </div>

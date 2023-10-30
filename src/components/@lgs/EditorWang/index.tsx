@@ -130,7 +130,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
             const audioResume = {
               type: 'audioAttachment',
               link: url,
-              children: [{ text: '' }], // void node 必须有 children ，其中有一个空字符串，重要！！！
+              children: [{ text: '' }],
             };
             editor.insertNode(audioResume);
           },
