@@ -4,19 +4,35 @@ import React, { useState } from 'react';
 import ImagePreview from '../ImagePreview';
 import './index.less';
 interface IProps {
+  accept?: string;
+  maxSize?: number;
   value?: string;
   onChange?: (value: string) => void;
 }
-const UploadOption: React.FC<IProps> = React.memo(({ value, onChange }) => {
+const UploadOption: React.FC<IProps> = React.memo((props) => {
+  const { value, accept = 'image/*', maxSize = 20, onChange } = props;
   const { message } = App.useApp();
   const [previewUrl, setPreviseUrl] = useState('');
-
+  const getFileExtension = (filename: string) => {
+    const index = filename.lastIndexOf('.');
+    if (index === -1) {
+      return '';
+    }
+    return filename.slice(index);
+  };
   const onFileChange = async (files: FileList | null) => {
     if (files && files.length > 0) {
       const file = files[0];
-      const maxSize = 10 * 1024 * 1024; // 10MB 的大小限制
-      if (file.size > maxSize) {
-        return message.error('文件尺寸不能大于10M');
+
+      const extension = getFileExtension(file.name);
+      const acceptArr = accept.split(',').map((item) => item.trim());
+      if (!/\*/.test(accept) && !acceptArr.includes(extension)) {
+        message.error(`仅支持格式为 ${accept} 的文件`);
+        return false;
+      }
+
+      if (file.size > maxSize * 1024 * 1024) {
+        return message.warning(`文件尺寸不能大于 ${maxSize} MB！`);
       }
       try {
         message.loading('文件上传中，请稍后...');

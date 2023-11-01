@@ -23,17 +23,23 @@ export interface UploadProps {
   next: (url: string) => void;
 }
 
+type LimitType = {
+  /** 文件类型 */
+  accept: string;
+  /** 尺寸大小，单位MB */
+  size?: number;
+};
 interface IProps {
   /** 默认值 */
   value?: string;
   /** 提示信息 */
   placeholder?: string;
   /** 视频格式 */
-  videoAccept?: string;
+  videoLimit?: LimitType;
   /** 音频格式 */
-  audioAccept?: string;
+  audioLimit?: LimitType;
   /** 图片格式 */
-  imageAccept?: string;
+  imageLimit?: LimitType;
   onChange?: (value: string) => void;
   /** 手机预览 */
   onPreview?: (htmlString: string) => void;
@@ -57,9 +63,13 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     const {
       value,
       placeholder = '请输入内容...',
-      videoAccept = '.mp4',
-      audioAccept = '.mp3',
-      imageAccept = '.jpg, .jpeg, .png, .webp, .gif, .bmp',
+      videoLimit = { accept: '.mp4', size: 60, ...(props.videoLimit || {}) },
+      audioLimit = { accept: '.mp3', size: 60, ...(props.audioLimit || {}) },
+      imageLimit = {
+        accept: '.jpg, .jpeg, .png, .webp, .gif, .bmp',
+        size: 20,
+        ...(props.imageLimit || {}),
+      },
       onChange,
       onPreview,
       onUploadFile,
@@ -91,13 +101,21 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
       return filename.slice(index);
     };
 
-    const checkAccept = (accept: string, file: File) => {
+    const checkLimit = (limit: LimitType, file: File) => {
+      // 1. 校验后缀名
       const extension = getFileExtension(file.name);
-      const acceptArr = accept.split(',').map((item) => item.trim());
-      if (!/\*/.test(accept) && !acceptArr.includes(extension)) {
-        message.error(`仅支持格式为 ${accept} 的文件!`);
+      const acceptArr = limit.accept.split(',').map((item) => item.trim());
+      if (!/\*/.test(limit.accept) && !acceptArr.includes(extension)) {
+        message.warning(`仅支持格式为 ${limit.accept} 的文件！`);
         return false;
       }
+      // 2. 校验文件大小
+      const maxSize = limit.size! * 1024 * 1024;
+      if (file.size > maxSize) {
+        message.warning(`文件大小不能大于 ${limit.size!} MB！`);
+        return false;
+      }
+
       return true;
     };
 
@@ -122,7 +140,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     };
     const __onReplaceImage = (editor: IDomEditor, file: File) => {
       if (onUploadFile) {
-        if (!checkAccept(imageAccept, file)) return;
+        if (!checkLimit(imageLimit, file)) return;
         onUploadFile({
           type: 'IMAGE',
           file,
@@ -152,7 +170,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     };
     const __onUploadAudio = (editor: IDomEditor, file: File) => {
       if (onUploadFile) {
-        if (!checkAccept(audioAccept, file)) return;
+        if (!checkLimit(audioLimit, file)) return;
         onUploadFile({
           type: 'AUDIO',
           file,
@@ -185,7 +203,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
         uploadImage: {
           async customUpload(file: File, insertFn: InsertImageFnType) {
             if (onUploadFile) {
-              if (!checkAccept(imageAccept, file)) return;
+              if (!checkLimit(imageLimit, file)) return;
               onUploadFile({
                 type: 'IMAGE',
                 file,
@@ -199,7 +217,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
         uploadVideo: {
           async customUpload(file: File, insertFn: InsertVideoFnType) {
             if (onUploadFile) {
-              if (!checkAccept(videoAccept, file)) return;
+              if (!checkLimit(videoLimit, file)) return;
               onUploadFile({
                 type: 'VIDEO',
                 file,
