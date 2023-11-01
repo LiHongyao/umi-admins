@@ -5,6 +5,7 @@ import { message } from 'antd';
  * @param code
  * @returns
  */
+
 export const checkAccessForFunc = (code: string) => {
   const loc = localStorage.getItem('XXX_USERINFOs') ?? '{}';
   const access = (JSON.parse(loc).access ?? []) as Array<string>;
