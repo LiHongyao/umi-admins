@@ -28,6 +28,12 @@ interface IProps {
   value?: string;
   /** 提示信息 */
   placeholder?: string;
+  /** 视频格式 */
+  videoAccept?: string;
+  /** 音频格式 */
+  audioAccept?: string;
+  /** 图片格式 */
+  imageAccept?: string;
   onChange?: (value: string) => void;
   /** 手机预览 */
   onPreview?: (htmlString: string) => void;
@@ -51,6 +57,9 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     const {
       value,
       placeholder = '请输入内容...',
+      videoAccept = '.mp4',
+      audioAccept = '.mp3',
+      imageAccept = '.jpg, .jpeg, .png, .webp, .gif, .bmp',
       onChange,
       onPreview,
       onUploadFile,
@@ -73,6 +82,25 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
       },
     }));
 
+    // -- methods
+    const getFileExtension = (filename: string) => {
+      const index = filename.lastIndexOf('.');
+      if (index === -1) {
+        return '';
+      }
+      return filename.slice(index);
+    };
+
+    const checkAccept = (accept: string, file: File) => {
+      const extension = getFileExtension(file.name);
+      const acceptArr = accept.split(',').map((item) => item.trim());
+      if (!/\*/.test(accept) && !acceptArr.includes(extension)) {
+        message.error(`仅支持格式为 ${accept} 的文件!`);
+        return false;
+      }
+      return true;
+    };
+
     // -- events
     const __onClearContent = (editor: IDomEditor) => {
       modal.confirm({
@@ -94,6 +122,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     };
     const __onReplaceImage = (editor: IDomEditor, file: File) => {
       if (onUploadFile) {
+        if (!checkAccept(imageAccept, file)) return;
         onUploadFile({
           type: 'IMAGE',
           file,
@@ -123,6 +152,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     };
     const __onUploadAudio = (editor: IDomEditor, file: File) => {
       if (onUploadFile) {
+        if (!checkAccept(audioAccept, file)) return;
         onUploadFile({
           type: 'AUDIO',
           file,
@@ -155,6 +185,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
         uploadImage: {
           async customUpload(file: File, insertFn: InsertImageFnType) {
             if (onUploadFile) {
+              if (!checkAccept(imageAccept, file)) return;
               onUploadFile({
                 type: 'IMAGE',
                 file,
@@ -168,6 +199,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
         uploadVideo: {
           async customUpload(file: File, insertFn: InsertVideoFnType) {
             if (onUploadFile) {
+              if (!checkAccept(videoAccept, file)) return;
               onUploadFile({
                 type: 'VIDEO',
                 file,
@@ -184,7 +216,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     // 及时销毁 editor ，重要！
     useEffect(() => {
       return () => {
-        if (editor == null) return;
+        if (editor === null) return;
         editor.destroy();
         setEditor(null);
       };

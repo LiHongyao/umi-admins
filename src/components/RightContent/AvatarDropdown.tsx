@@ -25,7 +25,6 @@ export const AvatarName = () => {
 };
 
 export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
-  menu,
   children,
 }) => {
   // -- state
@@ -105,7 +104,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
   );
 
   if (!initialState) {
-    alert(1);
     return loading;
   }
 
