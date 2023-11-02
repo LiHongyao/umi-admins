@@ -23,7 +23,7 @@ umi-admins
 │   ├── defaultSettings.ts    # 默认配置
 │	  └── routes.ts             # 路由配置
 ├── mock
-│	  └──	apis.ts               # 数据mock，前期开发时模拟后端数据结构
+│	  └── apis.ts               # 数据mock，前期开发时模拟后端数据结构
 ├── public                    # 该文件下的目录打包时将直接拷贝至根目录
 ├── src                       # 源码文件
 │   ├── api                   # 前后端交互
@@ -36,6 +36,7 @@ umi-admins
 │   │   ├── @lgs              # 自己封装的常用组件
 │   │   └── ....              # 项目内通用组件
 │   ├── constants             # 全局常量定义
+│   ├── hooks                 # Hooks
 │   ├── models                # 状态管理
 │   ├── pages                 # 业务页面
 │   ├── utils                 # 工具类
