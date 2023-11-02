@@ -4,6 +4,7 @@ import MatchLine, {
   MatchLineAnswers,
   MatchLineOptions,
 } from '@likg/match-line';
+import Validator from '@likg/validator';
 import { App, Button, Space } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
@@ -79,6 +80,14 @@ const MatchLineForm: React.FC<IProps> = React.memo(
     ) => {
       if (files && files.length > 0) {
         const file = files[0];
+        const accept = '.jpg, .jpeg, .png, .webp, .gif, .bmp';
+        if (!Validator.checkFile({ type: 'extension', file, accept })) {
+          return message.warning(`仅支持格式为 ${accept} 的文件！`);
+        }
+        // 2. 校验文件大小
+        if (!Validator.checkFile({ type: 'size', file, maxSize: 20 })) {
+          return message.warning(`文件大小不能大于 20 MB！`);
+        }
         try {
           message.loading('图片上传中...', 0);
           // const resp = await apiCommon.uploadFile(file);

@@ -49,7 +49,9 @@ const Feedback: React.FC = () => {
           return data;
         }}
         request={async (params) => {
-          const resp = await apiUser.feedbacks({ ...params });
+          params.page = params.current;
+          delete params.current;
+          const resp = await apiUser.feedbacks(params);
           return Promise.resolve({
             data: resp.data.list || [],
             success: true,

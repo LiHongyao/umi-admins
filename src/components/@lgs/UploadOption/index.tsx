@@ -1,4 +1,5 @@
 import { FileImageOutlined } from '@ant-design/icons';
+import Validator from '@likg/validator';
 import { App, Popconfirm, Tooltip } from 'antd';
 import React, { useState } from 'react';
 import ImagePreview from '../ImagePreview';
@@ -13,26 +14,18 @@ const UploadOption: React.FC<IProps> = React.memo((props) => {
   const { value, accept = 'image/*', maxSize = 20, onChange } = props;
   const { message } = App.useApp();
   const [previewUrl, setPreviseUrl] = useState('');
-  const getFileExtension = (filename: string) => {
-    const index = filename.lastIndexOf('.');
-    if (index === -1) {
-      return '';
-    }
-    return filename.slice(index);
-  };
+
   const onFileChange = async (files: FileList | null) => {
     if (files && files.length > 0) {
       const file = files[0];
-
-      const extension = getFileExtension(file.name);
-      const acceptArr = accept.split(',').map((item) => item.trim());
-      if (!/\*/.test(accept) && !acceptArr.includes(extension)) {
-        message.error(`仅支持格式为 ${accept} 的文件`);
-        return false;
+      // 校验文件类型
+      if (!Validator.checkFile({ type: 'extension', file, accept })) {
+        return message.error(`仅支持格式为 ${accept} 的文件`);
       }
 
-      if (file.size > maxSize * 1024 * 1024) {
-        return message.warning(`文件尺寸不能大于 ${maxSize} MB！`);
+      // 校验文件限制
+      if (!Validator.checkFile({ type: 'size', file, maxSize })) {
+        return message.error(`文件尺寸不能大于${maxSize}MB`);
       }
       try {
         message.loading('文件上传中，请稍后...');

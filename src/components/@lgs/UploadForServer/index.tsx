@@ -1,4 +1,5 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import Validator from '@likg/validator';
 import { App, Upload } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import React, { useState } from 'react';
@@ -13,26 +14,19 @@ const UploadForServer: React.FC<IProps> = React.memo((props) => {
   const { message } = App.useApp();
   const [loading, setLoading] = useState(false);
 
-  const getFileExtension = (filename: string) => {
-    const index = filename.lastIndexOf('.');
-    if (index === -1) {
-      return '';
-    }
-    return filename.slice(index);
-  };
   const beforeUpload = (file: RcFile) => {
     // 校验文件类型
-    const extension = getFileExtension(file.name);
-    const acceptArr = accept.split(',').map((item) => item.trim());
-    if (!/\*/.test(accept) && !acceptArr.includes(extension)) {
+    if (!Validator.checkFile({ type: 'extension', file, accept })) {
       message.error(`仅支持格式为 ${accept} 的文件`);
       return false;
     }
+
     // 校验文件限制
-    if (file.size > maxSize * 1024 * 1024) {
+    if (!Validator.checkFile({ type: 'size', file, maxSize })) {
       message.error(`文件尺寸不能大于${maxSize}MB`);
       return false;
     }
+    return true;
   };
 
   const uploadFile = async ({ file }: any) => {

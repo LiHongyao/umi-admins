@@ -147,6 +147,7 @@ const Banners: React.FC = () => {
         scroll={{ x: 1000 }}
         toolBarRender={() => [
           <Button
+            key={'create'}
             onClick={() => {
               vForm.current?.resetFields();
               setOpenForm(true);
@@ -167,6 +168,8 @@ const Banners: React.FC = () => {
           return data;
         }}
         request={async (params) => {
+          params.page = params.current;
+          delete params.current;
           if (params.showTime) {
             params.start = `${params.showTime[0]} 00:00:00`;
             params.end = `${params.showTime[1]} 23:59:59`;

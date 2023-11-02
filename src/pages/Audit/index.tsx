@@ -175,6 +175,8 @@ const Audit: React.FC = () => {
           showTotal: (total) => `共 ${total} 条`,
         }}
         request={async (params: any) => {
+          params.page = params.current;
+          delete params.current;
           const resp = await apiAudit.list(params);
           return Promise.resolve({
             data: resp.data.list || [],

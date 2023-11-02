@@ -1,3 +1,4 @@
+import Validator from '@likg/validator';
 import {
   IDomEditor,
   IEditorConfig,
@@ -93,25 +94,16 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     }));
 
     // -- methods
-    const getFileExtension = (filename: string) => {
-      const index = filename.lastIndexOf('.');
-      if (index === -1) {
-        return '';
-      }
-      return filename.slice(index);
-    };
-
     const checkLimit = (limit: LimitType, file: File) => {
       // 1. 校验后缀名
-      const extension = getFileExtension(file.name);
-      const acceptArr = limit.accept.split(',').map((item) => item.trim());
-      if (!/\*/.test(limit.accept) && !acceptArr.includes(extension)) {
+      if (
+        !Validator.checkFile({ type: 'extension', file, accept: limit.accept })
+      ) {
         message.warning(`仅支持格式为 ${limit.accept} 的文件！`);
         return false;
       }
       // 2. 校验文件大小
-      const maxSize = limit.size! * 1024 * 1024;
-      if (file.size > maxSize) {
+      if (!Validator.checkFile({ type: 'size', file, maxSize: limit.size! })) {
         message.warning(`文件大小不能大于 ${limit.size!} MB！`);
         return false;
       }

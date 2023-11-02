@@ -100,11 +100,12 @@ const News: React.FC = () => {
         headerTitle={'新闻管理'}
         options={false}
         toolBarRender={() => [
-          <Button onClick={() => navigate('/news/create')}>
+          <Button key={'create'} onClick={() => navigate('/news/create')}>
             <PlusOutlined />
             <span>新建</span>
           </Button>,
         ]}
+        scroll={{ x: 1200 }}
         columns={columns}
         rowKey="id"
         pagination={{
@@ -112,10 +113,9 @@ const News: React.FC = () => {
           showTotal: (total) => `共 ${total} 条`,
         }}
         request={async (params) => {
-          const resp = await apiNews.list({
-            current: params.current || 1,
-            pageSize: params.pageSize || 20,
-          });
+          params.page = params.current;
+          delete params.current;
+          const resp = await apiNews.list(params);
           return Promise.resolve({
             data: resp.data.list || [],
             success: true,

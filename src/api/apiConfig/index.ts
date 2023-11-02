@@ -30,9 +30,10 @@ axiosInstance.interceptors.request.use(
     // -- 拼接token
     const token = localStorage.getItem('APP_TOKEN');
     config.headers = {
-      // Authorization: token ? `Bearer ${token}` : '',
+      Authorization: token ? `Bearer ${token}` : '',
       ...config.headers,
     };
+    console.log(config);
     return config;
   },
   (error) => {
