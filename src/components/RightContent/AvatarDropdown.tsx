@@ -1,9 +1,15 @@
 import { apiSystems } from '@/api/apiServer';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { useFullScreen } from '@/hooks';
+import {
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { history, useModel } from '@umijs/max';
-import { App, Spin } from 'antd';
+import { App, Spin, Tooltip } from 'antd';
 import { stringify } from 'querystring';
 import React, { useCallback, useState } from 'react';
 import { flushSync } from 'react-dom';
@@ -18,7 +24,7 @@ export const AvatarName = () => {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
   return (
-    <span className="anticon" style={{ color: '#FFF' }}>
+    <span style={{ color: '#FFF', fontSize: 14 }}>
       {currentUser?.nickname || '管理员'}
     </span>
   );
@@ -31,12 +37,14 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
   const [openForm, setOpenForm] = useState(false);
   const { initialState, setInitialState } = useModel('@@initialState');
   const { message, modal } = App.useApp();
+  const { isFullScreen, enterFullScreen, exitFullScreen } = useFullScreen();
 
   // -- methods
   const loginOut = async () => {
     // await outLogin();
     const { search, pathname } = window.location;
     const urlParams = new URL(window.location.href).searchParams;
+
     /** 此方法会跳转到 redirect 参数所在的位置 */
     const redirect = urlParams.get('redirect');
     // Note: There may be security issues, please note
@@ -50,9 +58,8 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
     }
   };
   const jumpToLoginPages = () => {
-    localStorage.removeItem('XXX_ACCOUNT_INFO');
-    localStorage.removeItem('XXX_USERINFOs');
-    localStorage.removeItem('XXX_TOKEN');
+    localStorage.clear();
+    message.success('退出成功');
     history.push('/login');
   };
 
@@ -190,6 +197,23 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({
           allowClear
         />
       </ModalForm>
+      <div style={{ color: '#fff', fontSize: 20 }}>
+        {isFullScreen ? (
+          <Tooltip title="退出全屏">
+            <FullscreenExitOutlined
+              className="hover:text-[#0058FE]"
+              onClick={exitFullScreen}
+            />
+          </Tooltip>
+        ) : (
+          <Tooltip title="进入全屏">
+            <FullscreenOutlined
+              className="hover:text-[#0058FE]"
+              onClick={enterFullScreen}
+            />
+          </Tooltip>
+        )}
+      </div>
     </>
   );
 };
