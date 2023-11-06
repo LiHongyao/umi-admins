@@ -57,8 +57,9 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
+    siderWidth: 220,
     actionsRender: () => [
-      <div style={{ color: '#fff', fontSize: 14 }}>
+      <div key={'dateString'} style={{ color: '#fff', fontSize: 14 }}>
         {dayjs().locale('zh-cn').format('YYYY年MM月DD日 dddd')}
       </div>,
     ],
