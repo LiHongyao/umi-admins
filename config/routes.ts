@@ -90,6 +90,7 @@ const routes: RouterConfig[] = [
     name: '配置管理',
     icon: 'icon-peizhi',
   },
+
   {
     path: '/systems',
     name: '系统管理',
@@ -111,6 +112,12 @@ const routes: RouterConfig[] = [
         component: '@/pages/Systems/Users',
       },
     ],
+  },
+  {
+    path: '/lgtest',
+    component: '@/pages/Lgtest',
+    name: '测试专用',
+    hideInMenu: true,
   },
 ];
 

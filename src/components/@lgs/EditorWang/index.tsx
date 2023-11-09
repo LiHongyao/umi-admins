@@ -168,7 +168,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
           file,
           next(url) {
             const audioResume = {
-              type: 'audioAttachment',
+              type: 'audio',
               link: url,
               children: [{ text: '' }],
             };
@@ -265,6 +265,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
             );
           }}
           onChange={(editor: IDomEditor) => {
+            console.log(editor.children);
             const htmlString = editor.getHtml();
             onChange && onChange(htmlString);
           }}
