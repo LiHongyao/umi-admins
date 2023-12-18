@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 const Lgtest: React.FC = () => {
   const [htmlString, setHtmlString] = useState(
-    `<p>123123213</p><div data-w-e-type="audio" data-w-e-is-void data-src= style="padding: 16px 8px; background:linear-gradient(45deg,#f5f5f5 70%,transparent 0,transparent 80%,#f5f5f5 0,#f5f5f5);" > <audio controls preload="auto" src="" /> </div> <p>3123213213</p><p><strong>李鸿耀最帅</strong></p>`,
+    `<p>111111</p><p>22222222222</p>`,
   );
   return (
     <PageContainer>
