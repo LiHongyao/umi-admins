@@ -152,14 +152,15 @@ const Basic: React.FC = () => {
         }}
         onFinish={async ({ key, value }) => {
           // 救援热线
-          if (key === 'hotline' && !Validator.tel(value)) {
+          if (key === 'hotline' && !Validator.isTel(value)) {
             return message.error('手机号码格式不正确');
           }
           // 客服微信二维码链接
+          let newValue = '';
           if (key === 'customerServiceQrCode') {
-            value = value[0].url;
+            newValue = value[0].url;
           }
-          console.log(`${key} - ${value}`);
+          console.log(`${key} - ${newValue}`);
           message.loading('处理中...', 0);
           try {
             setTimeout(() => {
@@ -220,8 +221,8 @@ const Basic: React.FC = () => {
           onPreview={(htmlString: string) => {
             console.log('预览');
           }}
-          onUploadImage={(file: File, next: (uri: string) => void) => {
-            console.log('上传图片');
+          onUploadFile={(opts) => {
+            console.log(opts);
           }}
         />
         <div style={{ marginTop: 16, textAlign: 'end' }}>

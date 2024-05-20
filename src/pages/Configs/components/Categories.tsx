@@ -1,10 +1,3 @@
-/*
- * @Author: Lee
- * @Date: 2023-05-10 18:54:40
- * @LastEditors: Lee
- * @LastEditTime: 2023-05-19 23:28:11
- * @Description:
- */
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ActionType,
@@ -102,6 +95,7 @@ const Types: React.FC = () => {
         toolBarRender={() => [
           <Button
             size={'small'}
+            key={'create'}
             onClick={() => {
               vForm.current?.resetFields();
               setOpenForm(true);
