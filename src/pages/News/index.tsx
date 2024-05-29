@@ -18,7 +18,6 @@ const News: React.FC = () => {
   const vTable = useRef<ActionType>();
 
   // -- state
-  const [openForm, setOpenForm] = useState(false);
   const [title, setTitle] = useState('');
   const [htmlString, setHtmlString] = useState('');
 

@@ -69,4 +69,5 @@ export default defineConfig({
   mfsu: {
     strategy: 'normal',
   },
+  jsMinifier: 'terser',
 });

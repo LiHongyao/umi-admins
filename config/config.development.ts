@@ -2,7 +2,7 @@
 import { defineConfig } from '@umijs/max';
 
 const HOST = {
-  后台A: 'http://172.20.50.142:1818',
+  后台A: 'http://172.20.50.142:1919',
   后台B: '此处为后台B服务器地址',
 };
 

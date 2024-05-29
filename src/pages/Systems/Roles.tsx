@@ -105,6 +105,7 @@ const Roles: React.FC = () => {
           <Button
             type={'primary'}
             shape={'round'}
+            key={'create'}
             onClick={() => {
               vForm.current?.resetFields();
               setOpenForm(true);
@@ -128,7 +129,7 @@ const Roles: React.FC = () => {
           return Promise.resolve({
             data: resp.data,
             success: true,
-            totla: resp.data.length,
+            total: resp.data.length,
           });
         }}
       />

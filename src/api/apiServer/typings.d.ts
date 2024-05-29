@@ -21,12 +21,15 @@ declare namespace API {
     signature: string;
   };
   type OSSSTSConfigProps = {
-    host: string;
-    region: string;
-    bucket: string;
     accessKeyId: string;
     accessKeySecret: string;
-    stsToken: string;
+    bucket: string;
+    endpoint: string;
+    expiration: string;
+    folder_path: string;
+    policy: string;
+    region: string;
+    securityToken: string;
   };
 
   /**********************

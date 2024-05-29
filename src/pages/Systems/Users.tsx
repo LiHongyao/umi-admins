@@ -175,6 +175,7 @@ const Users: React.FC = () => {
           <Button
             type={'primary'}
             shape={'round'}
+            key={'create'}
             onClick={() => {
               vForm.current?.resetFields();
               setOpenForm(true);
@@ -194,6 +195,7 @@ const Users: React.FC = () => {
           return Promise.resolve({
             data: resp.data || [],
             success: true,
+            total: resp.data.length,
           });
         }}
       />

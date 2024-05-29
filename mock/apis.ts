@@ -3,8 +3,13 @@ import ListAccess from './data/access';
 import ListAdministrators from './data/administrators';
 import ListRoles from './data/roles';
 
-const sleep = (delay = 500) =>
-  new Promise((resolve) => setTimeout(resolve, delay));
+const sleep = (delay = 500) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(null);
+    }, delay);
+  });
+};
 
 export default {
   /**********************
@@ -21,7 +26,41 @@ export default {
     },
   }),
   'POST /api/user/sendCaptcha': { code: 200 },
-  'POST /api/auth/logout': { code: 200 },
+  'POST /api/user/list': mock({
+    code: 200,
+    data: {
+      'list|10': [
+        {
+          id: '@guid',
+          userId: '@guid',
+          nickname: '@cname()',
+          avatarUrl: "@Image('80x80','@color')",
+          phone: '17398888669',
+          content: '@paragraph(1)',
+          createDate: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        },
+      ],
+      totalCount: 50,
+    },
+  }),
+  'POST /api/user/feedbacks': mock({
+    code: 200,
+    data: {
+      'list|10': [
+        {
+          id: '@guid',
+          userId: '@guid',
+          nickname: '@cname()',
+          avatarUrl: "@Image('80x80','@color')",
+          phone: '17398888669',
+          content: '@paragraph(1)',
+          createDate: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        },
+      ],
+      totalCount: 50,
+    },
+  }),
+  'POST /api/user/logout': { code: 200 },
   /**********************
    ** OSS-Configs
    **********************/
@@ -134,37 +173,4 @@ export default {
   },
   'POST /api/categories/addOrUpdate': { code: 200 },
   'DELETE /api/categories/remove/:id': { code: 200 },
-  /**********************
-   ** 用户管理
-   **********************/
-  'POST /api/users/list': mock({
-    code: 200,
-    data: {
-      'list|10': [
-        {
-          id: '@guid',
-          nickname: '@cname()',
-          avatarUrl: "@Image('80x80','@color')",
-          phone: '17398888669',
-          createDate: '@datetime("yyyy-MM-dd HH:mm:ss")',
-        },
-      ],
-    },
-  }),
-  'POST /api/feedback/list': mock({
-    code: 200,
-    data: {
-      'list|10': [
-        {
-          id: '@guid',
-          userId: '@guid',
-          nickname: '@cname()',
-          avatarUrl: "@Image('80x80','@color')",
-          phone: '17398888669',
-          content: '@paragraph(1)',
-          createDate: '@datetime("yyyy-MM-dd HH:mm:ss")',
-        },
-      ],
-    },
-  }),
 };

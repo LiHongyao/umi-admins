@@ -34,7 +34,9 @@ const ImageBox: React.FC<IProps> = ({
       </div>
       {caption ? <div className="lg-image-box__caption">{caption}</div> : null}
       {desc ? <div className="lg-image-box__desc">{desc}</div> : null}
-      <ImagePreview url={url} width={400} onCancel={() => setUrl('')} />
+      {src && (
+        <ImagePreview url={url} width={400} onCancel={() => setUrl('')} />
+      )}
     </div>
   );
 };

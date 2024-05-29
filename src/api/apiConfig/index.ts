@@ -33,7 +33,7 @@ axiosInstance.interceptors.request.use(
       Authorization: token ? `Bearer ${token}` : '',
       ...config.headers,
     };
-    console.log(config);
+
     return config;
   },
   (error) => {

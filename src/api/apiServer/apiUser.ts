@@ -17,7 +17,7 @@ export async function sendCaptcha(phone: string) {
 }
 export async function list(data: any) {
   return request<API.List<API.UserProps>>({
-    url: '/api/users/list',
+    url: '/api/user/list',
     method: 'POST',
     data,
   });
@@ -25,7 +25,7 @@ export async function list(data: any) {
 
 export async function feedbacks(data: any) {
   return request<API.List<API.FeedbackItemProps>>({
-    url: '/api/feedback/list',
+    url: '/api/user/feedbacks',
     method: 'POST',
     data,
   });

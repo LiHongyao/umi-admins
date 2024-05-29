@@ -66,6 +66,7 @@ const Users: React.FC = () => {
           return Promise.resolve({
             data: resp.data.list || [],
             success: true,
+            total: resp.data.totalCount,
           });
         }}
       />
