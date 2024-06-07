@@ -55,5 +55,5 @@ export default [
   '|',
   'fullScreen',
   'clearContent',
-  // 'preview',
+  'preview',
 ];

@@ -41,6 +41,8 @@ interface IProps {
   audioLimit?: LimitType;
   /** 图片格式 */
   imageLimit?: LimitType;
+  /** 排除工具栏keys */
+  excludeKeys?: string[];
   onChange?: (value: string) => void;
   /** 手机预览 */
   onPreview?: (htmlString: string) => void;
@@ -71,6 +73,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
         size: 20,
         ...(props.imageLimit || {}),
       },
+      excludeKeys = [],
       onChange,
       onPreview,
       onUploadFile,
@@ -169,7 +172,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
           next(url) {
             const audioResume = {
               type: 'audio',
-              link: url,
+              src: url,
               children: [{ text: '' }],
             };
             editor.insertNode(audioResume);
@@ -181,6 +184,7 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
     // -- 工具栏配置
     const toolbarConfig: Partial<IToolbarConfig> = {
       toolbarKeys,
+      excludeKeys,
     };
 
     // -- 编辑器配置
@@ -265,7 +269,6 @@ const EditorWang = React.forwardRef<EditorWangRefs | undefined, IProps>(
             );
           }}
           onChange={(editor: IDomEditor) => {
-            console.log(editor.children);
             const htmlString = editor.getHtml();
             onChange && onChange(htmlString);
           }}
