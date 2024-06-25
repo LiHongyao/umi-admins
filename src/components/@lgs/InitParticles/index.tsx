@@ -1,34 +1,39 @@
 // → 安装依赖：pnpm i  react-tsparticles tsparticles-engine tsparticles-slim
 
-import React, { useCallback } from 'react';
-import Particles from 'react-tsparticles';
-import type { Container, Engine } from 'tsparticles-engine';
-import { loadSlim } from 'tsparticles-slim';
+/**
+ * 粒子效果
+ * @See https://github.com/tsparticles/react
+ *
+ * 安装依赖：pnpm add @tsparticles/react @tsparticles/engine @tsparticles/slim
+ */
+import type { Container } from '@tsparticles/engine';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
+import { loadSlim } from '@tsparticles/slim';
+import React, { useEffect, useState } from 'react';
 import './index.less';
 import { particlesOptions } from './particlesOptions';
 
 const InitParticles: React.FC = React.memo(() => {
-  const particlesInit = useCallback(async (engine: Engine) => {
-    console.log(engine);
-    await loadSlim(engine);
+  const [init, setInit] = useState(false);
+  const particlesLoaded = async (container?: Container) => {
+    console.log(container);
+  };
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
 
-  const particlesLoaded = useCallback(
-    async (container: Container | undefined) => {
-      await console.log(container);
-    },
-    [],
-  );
-
-  return (
+  return init ? (
     <Particles
-      className={'tsparticles'}
       id="tsparticles"
-      init={particlesInit}
-      loaded={particlesLoaded}
+      className={'tsparticles'}
+      particlesLoaded={particlesLoaded}
       options={particlesOptions}
     />
-  );
+  ) : null;
 });
 
 export default InitParticles;
