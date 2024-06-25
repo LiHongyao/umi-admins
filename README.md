@@ -6,8 +6,8 @@
 
 **环境**：
 
-- node：v18.17.1
-- pnpm：v8.9.2
+- node：v20.12.1
+- pnpm：v9.1.4
 
 # 目录结构
 
@@ -21,9 +21,9 @@ umi-admins
 │   ├── config.qa.ts          # 测试环境
 │   ├── config.ts             # 统一配置
 │   ├── defaultSettings.ts    # 默认配置
-│	  └── routes.ts             # 路由配置
+│	└── routes.ts             # 路由配置
 ├── mock
-│	  └── apis.ts               # 数据mock，前期开发时模拟后端数据结构
+│	└── apis.ts               # 数据mock，前期开发时模拟后端数据结构
 ├── public                    # 该文件下的目录打包时将直接拷贝至根目录
 ├── src                       # 源码文件
 │   ├── api                   # 前后端交互
