@@ -1,6 +1,6 @@
 import { CheckOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { Input } from 'antd';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { useState } from 'react';
 import './index.less';
 interface IProps {
@@ -28,7 +28,7 @@ const EditSpan: React.FC<IProps> = React.memo(({ value, onChange }) => {
   };
   // -- render
   return (
-    <div className={classNames(['lg-edit-span', { 'un-edit': !editable }])}>
+    <div className={clsx(['lg-edit-span', { 'un-edit': !editable }])}>
       {editable ? (
         <>
           <Input.TextArea

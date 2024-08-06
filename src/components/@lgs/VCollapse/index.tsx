@@ -1,6 +1,6 @@
 import { DownSquareOutlined, UpSquareOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { ReactNode, useState } from 'react';
 import './index.less';
 
@@ -28,10 +28,7 @@ const VCollapse: React.FC<IProps> = React.memo(({ headerRender, children }) => {
       </header>
       {/* 内容 */}
       <main
-        className={classNames([
-          'lg-v-collapse__contents',
-          { expanded: isExpanded },
-        ])}
+        className={clsx(['lg-v-collapse__contents', { expanded: isExpanded }])}
       >
         {children}
       </main>

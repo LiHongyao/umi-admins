@@ -1,5 +1,5 @@
 import { Tooltip } from 'antd';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { ReactNode } from 'react';
 import './index.less';
 
@@ -15,7 +15,7 @@ const IconButton: React.FC<IProps> = React.memo(
     return (
       <Tooltip title={tooltip}>
         <div
-          className={classNames(['lg-icon-btn', { disabled }])}
+          className={clsx(['lg-icon-btn', { disabled }])}
           style={{ fontSize: size }}
           onClick={() => {
             if (!disabled) {

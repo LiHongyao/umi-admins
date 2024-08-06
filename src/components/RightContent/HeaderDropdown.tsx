@@ -1,7 +1,7 @@
 import { useEmotionCss } from '@ant-design/use-emotion-css';
 import { Dropdown } from 'antd';
 import type { DropDownProps } from 'antd/es/dropdown';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React from 'react';
 
 export type HeaderDropdownProps = {
@@ -26,9 +26,7 @@ const HeaderDropdown: React.FC<HeaderDropdownProps> = ({
       },
     };
   });
-  return (
-    <Dropdown overlayClassName={classNames(className, cls)} {...restProps} />
-  );
+  return <Dropdown overlayClassName={clsx(className, cls)} {...restProps} />;
 };
 
 export default HeaderDropdown;

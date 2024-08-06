@@ -119,7 +119,7 @@ const Login: React.FC = () => {
               src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
             />
           }
-          title="后台管理系统模板"
+          title="Umi Admins"
           subTitle={'基于Umijs + TypeScript + axios + ProCompoents 实现'}
           onFinish={async (
             values: API.LoginWithAccount & { memorize: boolean },

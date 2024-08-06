@@ -1,13 +1,16 @@
 # 前言
 
-在公司做项目，如果不是toB，或者对布局排版有特殊要求的，基本上后台管理系统都是拉框架，自由发挥，保证功能实现。因为自己在做后台管理系统的时候，基本上都是用的React + Ant Design 这一套，所以为了方便后期直接复用，这里基于常见业务需求，搭了一套框架，基于Umijs + TypeScript + axios + ProCompoents 构建后台管理系统模板。
+在公司做项目时，如果不是面向企业用户（toB）或者对布局排版有特殊要求，后台管理系统通常是基于框架进行开发，灵活地实现功能。由于我在开发后台管理系统时通常使用 React 和 Ant Design，为了方便后期的复用，我基于常见的业务需求搭建了一套框架，使用 Umijs、TypeScript、axios 和 ProComponents 构建了一个后台管理系统模板。
 
-这里值得注意的是，我并没有去拉 ProCompoents 的整套模板来做二次封装（_因为全量代码太重，很多功能都用不到，显得太鸡肋_），而是基于 [Umijs](https://umijs.org/) 的Simple模板实现，并根据业务场景，安装必要的依赖。
+需要注意的是，我并没有直接使用 ProComponents 的整套模板进行二次封装，因为全量代码过于庞大，很多功能并不需要，显得冗余。我选择基于 [Umijs](https://umijs.org/) 的 Simple 模板进行开发，并根据具体的业务场景安装必要的依赖。
 
-**环境**：
+**框架环境**：
 
-- node：v20.12.1
-- pnpm：v9.1.4
+node：<mark>v20.12.1</mark>
+
+pnpm：<mark>v9.1.4</mark>
+
+**仓库地址**：https://gitee.com/lihongyao/umi-admins
 
 # 目录结构
 
@@ -51,11 +54,11 @@ umi-admins
 
 # 指南
 
-1. 克隆项目 & 下载到本地
-2. 在编辑器中打开项目
-3. 安装依赖
+1. 克隆项目 OR 下载到本地
+2. 在编辑器中打开项目（推荐私用 `VSCode`）
+3. 安装依赖：`pnpm install`
 4. 在 **`configs/config.development.ts`** 文件中修改 **后台A** 的IP 地址为本机地址
-5. 终端输入指令 `pnpm dev` 预览效果
+5. 启动项目：`pnpm dev`
 
 # 提示
 

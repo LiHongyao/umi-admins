@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import React, { useState } from 'react';
 import './index.less';
 
@@ -17,7 +17,7 @@ const HCollapse: React.FC<IProps> = React.memo(
     return (
       <div className="lg-collapse" style={{ height }}>
         <div
-          className={classNames(['lg-collapse__wrapper', { close: !open }])}
+          className={clsx(['lg-collapse__wrapper', { close: !open }])}
           style={{ width: open ? width : 0 }}
         >
           <div className="lg-collapse__top">推荐模板</div>

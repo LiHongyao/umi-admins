@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
           }}
         >
           <Divider />
-          — 后台管理系统模板 —
+          — Umi Admins —
           <Divider />
         </h1>
       </ProCard>
