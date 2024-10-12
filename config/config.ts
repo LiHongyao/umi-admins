@@ -63,6 +63,7 @@ export default defineConfig({
   access: {},
 
   npmClient: 'pnpm',
+  mako: {},
 
   //================ pro 插件配置 =================
   presets: ['umi-presets-pro'],
