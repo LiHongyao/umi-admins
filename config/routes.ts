@@ -72,6 +72,7 @@ const routes: RouterConfig[] = [
     name: '用户管理',
     icon: 'icon-yonghuguanli',
     routes: [
+      { path: '/users', redirect: '/users/list' },
       {
         path: '/users/list',
         name: '用户列表',
@@ -96,6 +97,7 @@ const routes: RouterConfig[] = [
     name: '系统管理',
     icon: 'icon-xitong',
     routes: [
+      { path: '/systems', redirect: '/systems/access' },
       {
         path: '/systems/access',
         name: '权限列表',
