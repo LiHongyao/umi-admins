@@ -71,6 +71,7 @@ declare namespace API {
     parentId?: string;
     code: string;
     name: string;
+    depth: number;
     children?: Array<SystemsAccessProps>;
   };
   type SystemRoleProps = {

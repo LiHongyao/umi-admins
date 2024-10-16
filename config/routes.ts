@@ -104,6 +104,11 @@ const routes: RouterConfig[] = [
         component: '@/pages/Systems/Access',
       },
       {
+        path: '/systems/access-table-tree',
+        name: '权限列表（表格树）',
+        component: '@/pages/Systems/AccessTableTree',
+      },
+      {
         path: '/systems/roles',
         name: '角色管理',
         component: '@/pages/Systems/Roles',
